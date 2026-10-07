@@ -1,0 +1,23 @@
+.home-icon {
+    position: absolute;
+    top: 10px;  
+    left: 10px; 
+    z-index: 1000; 
+}
+
+.home-icon i {
+    font-size: 1rem;  
+    color: #606062; 
+    background-color: white; 
+    border-radius: 30%;  
+    padding: 10px;  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+.home-icon a {
+    text-decoration: none;
+}
+
+.home-icon:hover i {
+    transform: scale(1.1);  
+}  

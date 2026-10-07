@@ -1,0 +1,22 @@
+.dropdown-menu {
+    right: 0;
+    left: auto;
+    transform: translate(-5%, 10%);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.562);
+    min-width: 300px;
+  }
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+  }
+  .dropdown-item i {
+    margin-right: 10px;
+  }
+  .dropdown-header {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .fa-user-circle{
+    color: #00B0B8;
+  }

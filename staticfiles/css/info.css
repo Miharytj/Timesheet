@@ -1,0 +1,39 @@
+/* Styles pour les messages flottants centrés - à ajouter dans un de vos fichiers CSS */
+.floating-messages-container {
+    position: fixed;
+    top: 180px; /* Juste en dessous de la navbar */
+    left: 300px;
+    transform: translateX(-50%);
+    z-index: 1050;
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Les messages ne bloquent pas les clics */
+}
+
+.floating-message {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    pointer-events: auto; /* Le message lui-même peut recevoir des clics */
+    opacity: 0.95;
+    display: flex;
+    align-items: center;
+}
+
+.floating-message i {
+    margin-right: 10px;
+}
+
+.floating-message .btn-close {
+    margin-left: auto;
+}
+
+/* Ajouter une animation de fondu */
+.floating-message.fade {
+    transition: opacity 0.5s linear;
+}
+
+.floating-message.fade.show {
+    opacity: 0.95;
+}

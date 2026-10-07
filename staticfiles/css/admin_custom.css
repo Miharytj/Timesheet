@@ -1,0 +1,41 @@
+/* Appliquer un fond blanc et une ombre légère */
+.nav-sidebar {
+    background: white !important;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Changer la couleur de survol et d’élément actif */
+.nav-sidebar .nav-item a {
+    color: #333 !important;
+}
+
+.nav-sidebar .nav-item a:hover, 
+.nav-sidebar .nav-item.active > a {
+    background: #67D0D4 !important;
+    color: white !important;
+    border-radius: 5px;
+}
+
+/* Réduction des marges pour minimiser l’espacement */
+.nav-sidebar .nav-item {
+    margin-bottom: 3px !important;
+}
+
+/* Meilleur affichage des icônes */
+.nav-sidebar .nav-icon {
+    font-size: 18px !important;
+    margin-right: 8px !important;
+}
+
+/* Ajuster la taille et centrer le logo */
+.brand-link img {
+    max-height: 50px;  /* Ajuste selon la taille de ton logo */
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Supprimer l'espace du texte de la marque */
+.brand-link span {
+    display: none !important;
+}
