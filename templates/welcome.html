@@ -1,0 +1,91 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'img/logo 2.png' %}" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Page de bienvenue" %}</title>
+    <link href="{% static 'css/welcome.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/trans.css' %}" rel="stylesheet" />
+</head>
+<body>
+    <div class="language-selector">
+        <form action="{% url 'set_language' %}" method="post" id="language-form">
+            {% csrf_token %}
+            <select name="language" class="form-control border-0" onchange="document.getElementById('language-form').submit();">
+                <option value="fr" style="display:none;">{% trans "Français" %}</option> <!-- Option invisible -->
+                <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "Anglais" %}</option>
+                <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>{% trans "Français" %}</option>
+            </select>
+            <input type="hidden" name="next" value="{{ request.path }}">
+        </form>  
+    </div>    
+
+    <div class="main-container">
+        <div class="content-section">
+            <div class="left-section">
+                <div class="logo-container">
+                    <img src="{% static 'img/logo.png' %}" alt="Logo" class="logo">
+                </div>
+                <h1 class="welcome-text">{% trans "Bienvenue" %}</h1>
+                <div class="typing-text" id="typing-text"></div>
+                <div class="buttons-container">
+                    <div class="text-center">
+                        <a href="{% url 'account_login' %}" class="btn-custom btn-custom-primary">{% trans "Se connecter" %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="right-section">
+                <img src="{% static 'img/Cohort analysis-rafiki.png' %}" alt="Illustration" class="illustration">
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 {% trans "Harel Mallac Technologies Madagascar" %}. {% trans "TimeSheet by Tj" %}
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const texts = [
+                "{% trans 'Gérez votre temps avec la TimeSheet' %}",
+                "{% trans 'Simplifiez votre pointage quotidien' %}",
+                "{% trans 'Organisez votre calendrier efficacement' %}"
+            ];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingDelay = 100;
+            let erasingDelay = 50;
+            let newTextDelay = 2000;
+
+            function type() {
+                const currentText = texts[textIndex];
+                if (isDeleting) {
+                    $('#typing-text').text(currentText.substring(0, charIndex - 1));
+                    charIndex--;
+                } else {
+                    $('#typing-text').text(currentText.substring(0, charIndex + 1));
+                    charIndex++;
+                }
+
+                let typeSpeed = isDeleting ? erasingDelay : typingDelay;
+
+                if (!isDeleting && charIndex === currentText.length) {
+                    typeSpeed = newTextDelay;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                }
+
+                setTimeout(type, typeSpeed);
+            }
+
+            type();
+        });
+    </script>
+</body>
+</html>

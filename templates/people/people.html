@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+{% load i18n %}
+    <h1 class="mb-4 text-center">{% trans "Liste des Employés" %}</h1>
+
+    <div class="row">
+      <!-- Boucle Django pour afficher les employés -->
+      {% for employe in employes %}
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="card shadow-sm border-0" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#employeModal{{ employe.matricule|slugify }}">
+          <div class="card-body d-flex align-items-center">
+            <!-- Icône dynamique avec couleur selon la première lettre -->
+            <div class="d-flex justify-content-center align-items-center rounded-circle text-white fw-bold flex-shrink-0"
+              style="width: 60px; height: 60px; font-size: 22px; margin-right: 20px; background-color:
+               {% if employe.nom|slice:":1" == "H" %} #3AC0C6
+               {% elif employe.nom|slice:":1" == "R" %} #FF4D4D
+               {% elif employe.nom|slice:":1" == "J" %} #FFDD00
+               {% elif employe.nom|slice:":1" == "A" %} #50C878
+               {% elif employe.nom|slice:":1" == "S" %} #9B59B6
+               {% elif employe.nom|slice:":1" == "M" %} #FF5226
+               {% else %} #A9A9A9
+               {% endif %};">
+              {{ employe.nom|slice:":1" }}
+            </div>
+            
+            <!-- Informations de l'employé -->
+            <div class="flex-grow-1">
+              <h5 class="mb-1">{{ employe.nom }} {{ employe.prenom }}</h5>
+              <p class="mb-0 text-muted">
+                <strong>{% trans "Poste" %}:</strong> {{ employe.codeS.poste|default:_("Aucun") }}
+              </p>
+              <p class="mb-0 text-muted">
+                <strong>{% trans "Téléphone" %}:</strong> {{ employe.numero }}
+              </p>
+              <p class="mb-0 text-muted">
+                <strong>{% trans "Adresse" %}:</strong> {{ employe.adresse }}
+              </p>
+              <p class="mb-0 text-muted">
+                <strong>{% trans "Matricule" %}:</strong> {{ employe.matricule }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal pour chaque employé -->
+      <div class="modal fade" id="employeModal{{ employe.matricule|slugify }}" tabindex="-1" aria-labelledby="employeModalLabel{{ employe.matricule|slugify }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: 
+              {% if employe.nom|slice:":1" == "H" %} #3AC0C6
+              {% elif employe.nom|slice:":1" == "R" %} #FF4D4D
+              {% elif employe.nom|slice:":1" == "J" %} #FFDD00
+              {% elif employe.nom|slice:":1" == "A" %} #50C878
+              {% elif employe.nom|slice:":1" == "S" %} #9B59B6
+              {% elif employe.nom|slice:":1" == "M" %} #FF5226
+              {% else %} #A9A9A9
+              {% endif %};">
+              <h5 class="modal-title text-white" id="employeModalLabel{{ employe.matricule|slugify }}">{{ employe.nom }} {{ employe.prenom }}</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-3 d-flex justify-content-center align-items-start mb-3 mb-md-0">
+                  <div class="d-flex justify-content-center align-items-center rounded-circle text-white fw-bold"
+                    style="width: 100px; height: 100px; font-size: 40px; background-color:
+                    {% if employe.nom|slice:":1" == "H" %} #3AC0C6
+                    {% elif employe.nom|slice:":1" == "R" %} #FF4D4D
+                    {% elif employe.nom|slice:":1" == "J" %} #FFDD00
+                    {% elif employe.nom|slice:":1" == "A" %} #50C878
+                    {% elif employe.nom|slice:":1" == "S" %} #9B59B6
+                    {% elif employe.nom|slice:":1" == "M" %} #FF5226
+                    {% else %} #A9A9A9
+                    {% endif %};">
+                    {{ employe.nom|slice:":1" }}
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <h4 class="mb-3">{% trans "Informations personnelles" %}</h4>
+                  <div class="row">
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Nom" %}:</strong> {{ employe.nom }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Prénom" %}:</strong> {{ employe.prenom }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Matricule" %}:</strong> {{ employe.matricule }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Email" %}:</strong> {{ employe.mail }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Téléphone" %}:</strong> {{ employe.numero|default:_("Non renseigné") }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Adresse" %}:</strong> {{ employe.adresse }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Service" %}:</strong> {{ employe.codeS.poste|default:_("Aucun") }}</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+                      <p><strong>{% trans "Département" %}:</strong> {{ employe.departement|default:_("Non renseigné") }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

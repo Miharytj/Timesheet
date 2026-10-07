@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block content %} {% load i18n %} {% load static %}
+
+<body>
+  <!-- Contenu de la page d'aide -->
+  <div class="container">
+    <h1 class="text-center mb-4">{% trans "Support" %}</h1>
+
+    <!-- Section 1 : Introduction -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <p>
+          Si vous rencontrez des problèmes ou avez des questions, contactez le développeur web :<br>
+          If you encounter any problems or have any questions, contact the web developer:
+        </p>
+        <ul>
+          <li>{% trans "Email : miharisoatendry@gmail.com" %}</li>
+          <li>{% trans "Téléphone : 038 05 266 67" %}</li>
+        </ul>
+        <div class="text-center">
+          <img
+            src="{% static 'img/Usability testing-bro.png' %}"
+            alt="Bienvenue"
+            class="img-fluid rounded mb-3"
+            style="width: 50%; max-width: 400px"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}

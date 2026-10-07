@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+{% load i18n %}
+    <div class="card-body">
+      <h1 class="mb-4 text-center">{% trans "Événements de l'année" %} {{ current_year }}</h1>
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-light text-dark text-center py-3">
+          <h5 class="h4 mb-0 text-left">{% trans "Calendrier des Fêtes" %}</h2>
+        </div>
+        <div class="card-body p-3">
+          <ul class="list-group list-group-flush">
+            {% for event in events %}
+              <li class="list-group-item d-flex justify-content-between align-items-center border-bottom border-secondary">
+                <div class="fw-bold text-dark">
+                  {{ event.date|date:"j F Y" }}
+                  <span class="text-muted">({{ event.date|date:"l" }})</span>
+                </div>
+                <div class="text-dark">
+                  {{ event.name }}
+                </div>
+              </li>
+            {% empty %}
+              <li class="list-group-item text-center text-muted py-4 bg-light">
+                <i class="fas fa-calendar-times fa-2x mb-3"></i><br>{% trans "Aucun événement pour cette année." %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript pour interactions supplémentaires -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Ajoute un effet visuel lors du clic sur un événement
+    document.querySelectorAll('.list-group-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        this.classList.toggle('active');
+        this.classList.toggle('bg-light');
+        if (this.classList.contains('active')) {
+          this.style.borderLeft = '4px solid #3AC0C6';
+        } else {
+          this.style.borderLeft = 'none';
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

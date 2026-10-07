@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load i18n %}
+<style>
+    .table td {
+        white-space: nowrap;
+        overflow-x: auto;
+        max-width: 200px; /* Ajustez selon vos besoins */
+        padding: 8px;
+    }
+    
+    /* Pour une meilleure expérience utilisateur sur le défilement */
+    .table td::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .table td::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    .table td::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>{% trans "Liste des tâches" %}</h1>
+        <a href="{% url 'add_task' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> {% trans "Ajouter une nouvelle tâche" %}
+        </a>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex gap-3">
+            <form method="get" class="d-flex align-items-center gap-2">
+                <select id="filter" name="filter" class="form-select">
+                    <option value="mine" {% if filter_option == "mine" %}selected{% endif %}>{% trans "Mes Tâches" %}</option>
+                    <option value="all" {% if filter_option == "all" %}selected{% endif %}>{% trans "Toutes les Tâches" %}</option>
+                </select>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow p-3 mb-5 bg-white rounded">
+        <table id="tasks-table" class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>{% trans "Référence" %}</th>
+                    <th>{% trans "Nom de la Tâche" %}</th>
+                    <th>{% trans "Date d'ajout" %}</th>
+                    <th>{% trans "Description" %}</th>
+                    <th>{% trans "Date de Début" %}</th>
+                    <th>{% trans "Date de Fin" %}</th>
+                    <th>{% trans "Société" %}</th>
+                    <th>{% trans "Responsable" %}</th>
+                    <th>{% trans "Technicien Assigné" %}</th>
+                    <th>{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tache in taches %}
+                <tr>
+                    <td>{{ tache.RefTache }}</td>
+                    <td>{{ tache.NomTache }}</td>
+                    <td>{{ tache.dateAjout }}</td>
+                    <td>{{ tache.description }}</td>
+                    <td>{{ tache.DateDebut }}</td>
+                    <td>{{ tache.DateFin }}</td>
+                    <td>{{ tache.codeSoc.NomSociete }}</td>
+                    <td>{{ tache.matricule_Responsable.nom }} {{ tache.matricule_Responsable.prenom }}</td>
+                    <td>{{ tache.matricule_Technicien.nom }} {{ tache.matricule_Technicien.prenom }}</td>
+                    <td>
+                        {% if tache.matricule_Technicien == request.user.employe %}
+                            <a href="{% url 'edit_task' tache.RefTache %}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'delete_task' tache.RefTache %}" class="btn btn-danger btn-sm" onclick="return confirm('Confirmez-vous la suppression ?');">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10">{% trans "Aucune tâche trouvée." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if taches.has_other_pages %}
+    <nav aria-label="Page navigation" class="d-flex justify-content-end">
+        <ul class="pagination">
+            {% if taches.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ taches.previous_page_number }}&filter={{ filter_option }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for num in taches.paginator.page_range %}
+                {% if taches.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}&filter={{ filter_option }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if taches.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ taches.next_page_number }}&filter={{ filter_option }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}  
+
+{% block content %} 
+{% load i18n %} 
+{% load static %} 
+<div class="container">     
+    <div class="d-flex justify-content-between align-items-center mb-5">         
+        <h1>{% trans "Détails du profil" %}</h1>         
+        <a href="{% url 'modifier_employe' employe.matricule %}" class="btn btn-warning">{% trans "Modifier" %}</a>     
+    </div>      
+    
+    <div class="card mb-4">         
+        <div class="card-body">             
+            <h2 class="mb-3">{% trans "Informations personnelles" %}</h2>             
+            <p><strong>{% trans "Nom :" %}</strong> {{ employe.nom }}</p>             
+            <p><strong>{% trans "Prénom(s) :" %}</strong> {{ employe.prenom }}</p>             
+            <p><strong>{% trans "Adresse :" %}</strong> {{ employe.adresse }}</p>             
+            <p><strong>{% trans "Email :" %}</strong> {{ employe.mail }}</p>             
+            <p><strong>{% trans "Numéro :" %}</strong> {{ employe.numero }}</p>             
+            <p><strong>{% trans "Service :" %}</strong> {{ employe.codeS.poste }}</p>
+            <p><strong>{% trans "Département :" %}</strong> {{ employe.departement }}</p>
+        </div>     
+    </div>      
+    
+    {% if employe.user %}     
+    <div class="card mb-4">         
+        <div class="card-body">             
+            <h2 class="mb-3">{% trans "Mon compte" %}</h2>             
+            <p><strong>{% trans "Nom d'utilisateur :" %}</strong> {{ employe.user.username }}</p>             
+            <p><strong>{% trans "Email utilisateur :" %}</strong> {{ employe.user.email }}</p>             
+            <p><strong>{% trans "Dernière connexion :" %}</strong> {{ employe.user.last_login }}</p>             
+            <p><strong>{% trans "Actif :" %}</strong> {{ employe.user.is_active|yesno:"Oui,Non" }}</p>             
+            <p><strong>{% trans "Super administrateur :" %}</strong> {{ employe.user.is_superuser|yesno:"Oui,Non" }}</p>         
+        </div>     
+    </div>     
+    {% else %}     
+    <div class="alert alert-warning">{% trans "Aucun utilisateur lié." %}</div>     
+    {% endif %} 
+</div> 
+{% endblock %}

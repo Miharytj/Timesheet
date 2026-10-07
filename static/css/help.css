@@ -1,0 +1,39 @@
+/* static/css/help.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    color: #3AC0C6;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #555;
+}
+
+.img-fluid {
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+}
+
+footer {
+    margin-top: 50px;
+}

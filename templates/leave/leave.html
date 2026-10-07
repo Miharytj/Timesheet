@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load i18n %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>{% trans "Liste des congés" %}</h1>
+        <a href="{% url 'add_conge' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> {% trans "Ajouter un Congé" %}
+        </a>
+    </div>
+
+    <div class="table-responsive shadow p-3 mb-5 bg-white rounded">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>{% trans "Numéro" %}</th>
+                    <th>{% trans "Date de Demande" %}</th>
+                    <th>{% trans "Date Début" %}</th>
+                    <th>{% trans "Date Fin" %}</th>
+                    {% comment %} <th>{% trans "Type de Congé" %}</th> {% endcomment %}
+                    <th>{% trans "Motif" %}</th>
+                    <th>{% trans "Responsable" %}</th>
+                    <th>{% trans "Employé(e)" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conge in conges %}
+                <tr>
+                    <td>{{ conge.numero }}</td>
+                    <td>{{ conge.dateDemande }}</td>
+                    <td>{{ conge.DateDeb }}</td>
+                    <td>{{ conge.DateFin }}</td>
+                    {% comment %} <td>{{ conge.tconges.nom|default:"N/A" }}</td> {% endcomment %}
+                    <td>{{ conge.MotifCo|default:"N/A" }}</td>
+                    <td>{{ conge.matricule_responsable.nom }} {{ conge.matricule_responsable.prenom }}</td>
+                    <td>{{ conge.matricule_Technicien.nom }} {{ conge.matricule_Technicien.prenom }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8">{% trans "Aucun congé trouvé." %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination - Affichée seulement s'il y a plus d'une page -->
+    {% if conges.paginator.num_pages > 1 %}
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if conges.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ conges.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for num in conges.paginator.page_range %}
+                {% if conges.number == num %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+                {% elif num > conges.number|add:'-3' and num < conges.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if conges.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ conges.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ conges.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

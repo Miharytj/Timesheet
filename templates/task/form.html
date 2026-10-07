@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load i18n %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>{% if tache %}{% trans "Modifier" %}{% else %}{% trans "Ajouter" %}{% endif %} {% trans "une Tâche" %}</h1>
+        <div>
+            <a href="{% url 'task' %}" class="btn btn-danger">{% trans "Annuler" %}</a>
+            <button type="submit" form="task-form" class="btn btn-success" id="submit-btn">{% trans "Enregistrer" %}</button>
+        </div>
+    </div>
+
+    <form id="task-form" method="post">
+        {% csrf_token %}
+        
+        {% if tache %}
+        <div class="form-group mb-3">
+            <label for="RefTache">{% trans "Référence de la tâche" %}</label>
+            <input type="text" class="form-control" id="RefTache" name="RefTache" value="{{ tache.RefTache }}" readonly>
+        </div>
+        {% endif %}
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="form-group mb-3">
+                    <label for="NomTache">{% trans "Nom de la Tâche" %}</label>
+                    <input type="text" class="form-control" id="NomTache" name="NomTache" value="{{ tache.NomTache|default:'' }}" required>
+                    <div class="validation-icon" id="nom-icon"></div>
+                    <div class="error-message" id="nom-error"></div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="description">{% trans "Description" %}</label>
+                    <textarea class="form-control" id="description" name="description" required>{{ tache.description|default:'' }}</textarea>
+                    <div class="validation-icon" id="desc-icon"></div>
+                    <div class="error-message" id="desc-error"></div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="DateDebut">{% trans "Date de Début" %}</label>
+                    <input type="datetime-local" class="form-control" id="DateDebut" name="DateDebut" 
+                           value="{{ tache.DateDebut|default:'' }}" 
+                           min="{{ date_min }}" 
+                           max="{{ date_max }}" 
+                           required>
+                    <div class="validation-icon" id="debut-icon"></div>
+                    {% comment %} <small class="form-text text-muted">
+                        {% trans "Date autorisée entre" %} {{ annee_min }} {% trans "et" %} {{ annee_max }}
+                    </small> {% endcomment %}
+                    <div class="error-message" id="debut-error"></div>
+                </div>
+
+                <div class="form-group mb-3" id="date-fin-group">
+                    <label for="DateFin">{% trans "Date de Fin" %}</label>
+                    <input type="datetime-local" class="form-control" id="DateFin" name="DateFin" 
+                           value="{{ tache.DateFin|default:'' }}" 
+                           min="{{ date_min }}" 
+                           max="{{ date_max }}" 
+                           required>
+                    <div class="validation-icon" id="fin-icon"></div>
+                    {% comment %} <small class="form-text text-muted">
+                        {% trans "Date autorisée entre" %} {{ annee_min }} {% trans "et" %} {{ annee_max %}
+                    </small> {% endcomment %}
+                    <div class="error-message" id="fin-error"></div>
+                </div>
+
+                <div class="form-group mb-3" id="responsable-group">
+                    <label for="matricule_responsable">{% trans "Responsable" %}</label>
+                    <select id="matricule_responsable" name="matricule_responsable" class="form-control" required>
+                        <option value="">{% trans "-- Sélectionnez un responsable --" %}</option>
+                        {% for employe in employes %}
+                        <option value="{{ employe.matricule }}" {% if tache and tache.matricule_responsable.matricule == employe.matricule %}selected{% endif %}>
+                            {{ employe.nom }} {{ employe.prenom }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <div class="validation-icon" id="resp-icon"></div>
+                    <div class="error-message" id="resp-error"></div>
+                </div>
+
+                <div class="form-group mb-4" id="societe-group">
+                    <label for="codeSoc">{% trans "Société" %}</label>
+                    <select id="codeSoc" name="codeSoc" class="form-control" required>
+                        <option value="">{% trans "-- Sélectionnez une société --" %}</option>
+                        {% for societe in societes %}
+                        <option value="{{ societe.codeSoc }}" {% if tache and tache.codeSoc.codeSoc == societe.codeSoc %}selected{% endif %}>
+                            {{ societe.NomSociete }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <div class="validation-icon" id="soc-icon"></div>
+                    <div class="error-message" id="soc-error"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <style>
+        .error-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .form-control.error {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        
+        .form-control:disabled {
+            background-color: #f8f9fa;
+            opacity: 0.6;
+        }
+        
+        .field-disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .validation-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .toast {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+    </style>
+
+    <script>
+        class TaskFormValidator {
+            constructor() {
+                this.currentYear = new Date().getFullYear();
+                this.minYear = this.currentYear - 2;
+                this.maxYear = this.currentYear + 1;
+                this.validationState = {
+                    nom: false,
+                    description: false,
+                    dateDebut: false,
+                    dateFin: false,
+                    responsable: false,
+                    societe: false
+                };
+                this.isEditMode = document.getElementById('RefTache') !== null;
+                
+                this.init();
+            }
+            
+            init() {
+                // Ajouter les écouteurs d'événements
+                this.addEventListeners();
+                
+                // Si c'est le mode édition, valider les champs existants
+                if (this.isEditMode) {
+                    this.validateExistingData();
+                } else {
+                    // En mode création, désactiver les champs suivants
+                    this.disableField('DateFin');
+                    this.disableNextFields();
+                }
+            }
+            
+            validateExistingData() {
+                // Valider les champs existants en mode édition
+                this.validateNom(document.getElementById('NomTache').value);
+                this.validateDescription(document.getElementById('description').value);
+                this.validateDateDebut(document.getElementById('DateDebut').value);
+                this.validateDateFin(document.getElementById('DateFin').value);
+                this.validateResponsable(document.getElementById('matricule_responsable').value);
+                this.validateSociete(document.getElementById('codeSoc').value);
+            }
+            
+            addEventListeners() {
+                // Validation en temps réel pour le nom
+                document.getElementById('NomTache').addEventListener('input', (e) => {
+                    this.validateNom(e.target.value);
+                });
+                
+                // Validation en temps réel pour la description
+                document.getElementById('description').addEventListener('input', (e) => {
+                    this.validateDescription(e.target.value);
+                });
+                
+                // Validation en temps réel pour la date de début
+                document.getElementById('DateDebut').addEventListener('change', (e) => {
+                    this.validateDateDebut(e.target.value);
+                });
+                
+                // Validation en temps réel pour la date de fin
+                document.getElementById('DateFin').addEventListener('change', (e) => {
+                    this.validateDateFin(e.target.value);
+                });
+                
+                // Validation pour le responsable
+                document.getElementById('matricule_responsable').addEventListener('change', (e) => {
+                    this.validateResponsable(e.target.value);
+                });
+                
+                // Validation pour la société
+                document.getElementById('codeSoc').addEventListener('change', (e) => {
+                    this.validateSociete(e.target.value);
+                });
+                
+                // Prévenir la soumission si invalide
+                document.getElementById('task-form').addEventListener('submit', (e) => {
+                    if (!this.isFormValid()) {
+                        e.preventDefault();
+                        this.showToast('{% trans "Veuillez corriger les erreurs avant de soumettre le formulaire" %}', 'error');
+                        return false;
+                    }
+                });
+            }
+            
+            validateNom(value) {
+                const isValid = value.trim().length >= 3;
+                this.updateValidationState('nom', isValid);
+                
+                if (!isValid && value.length > 0) {
+                    this.showFieldError('NomTache', 'nom-error', 'nom-icon', '{% trans "Le nom doit contenir au moins 3 caractères" %}');
+                } else if (isValid) {
+                    this.showFieldSuccess('NomTache', 'nom-error', 'nom-icon');
+                } else {
+                    this.clearFieldValidation('NomTache', 'nom-error', 'nom-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateDescription(value) {
+                const isValid = value.trim().length >= 4;
+                this.updateValidationState('description', isValid);
+                
+                if (!isValid && value.length > 0) {
+                    this.showFieldError('description', 'desc-error', 'desc-icon', '{% trans "La description doit contenir au moins 04 caractères" %}');
+                } else if (isValid) {
+                    this.showFieldSuccess('description', 'desc-error', 'desc-icon');
+                } else {
+                    this.clearFieldValidation('description', 'desc-error', 'desc-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateDateDebut(value) {
+                if (!value) {
+                    this.updateValidationState('dateDebut', false);
+                    this.clearFieldValidation('DateDebut', 'debut-error', 'debut-icon');
+                    if (!this.isEditMode) {
+                        this.disableField('DateFin');
+                    }
+                    this.updateFormState();
+                    return;
+                }
+                
+                const date = new Date(value);
+                const year = date.getFullYear();
+                const isValid = year >= this.minYear && year <= this.maxYear;
+                
+                this.updateValidationState('dateDebut', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('DateDebut', 'debut-error', 'debut-icon', 
+                        `{% trans "La date de début doit être entre" %} ${this.minYear} {% trans "et" %} ${this.maxYear}`);
+                    this.showToast(`{% trans "Date de début invalide. Année autorisée:" %} ${this.minYear}-${this.maxYear}`, 'error');
+                    if (!this.isEditMode) {
+                        this.disableField('DateFin');
+                    }
+                } else {
+                    this.showFieldSuccess('DateDebut', 'debut-error', 'debut-icon');
+                    if (!this.isEditMode) {
+                        this.enableField('DateFin');
+                    }
+                    // Révalider la date de fin si elle existe
+                    const dateFin = document.getElementById('DateFin').value;
+                    if (dateFin) {
+                        this.validateDateFin(dateFin);
+                    }
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateDateFin(value) {
+                if (!value) {
+                    this.updateValidationState('dateFin', false);
+                    this.clearFieldValidation('DateFin', 'fin-error', 'fin-icon');
+                    this.updateFormState();
+                    return;
+                }
+                
+                const dateFin = new Date(value);
+                const dateDebut = new Date(document.getElementById('DateDebut').value);
+                const year = dateFin.getFullYear();
+                
+                let isValid = true;
+                let errorMessage = '';
+                
+                // Vérifier l'année
+                if (year < this.minYear || year > this.maxYear) {
+                    isValid = false;
+                    errorMessage = `{% trans "La date de fin doit être entre" %} ${this.minYear} {% trans "et" %} ${this.maxYear}`;
+                }
+                // Vérifier que la date de fin est après la date de début
+                else if (dateFin <= dateDebut) {
+                    isValid = false;
+                    errorMessage = '{% trans "La date de fin doit être postérieure à la date de début" %}';
+                }
+                
+                this.updateValidationState('dateFin', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('DateFin', 'fin-error', 'fin-icon', errorMessage);
+                    this.showToast(errorMessage, 'error');
+                    if (!this.isEditMode) {
+                        this.disableNextFields();
+                    }
+                } else {
+                    this.showFieldSuccess('DateFin', 'fin-error', 'fin-icon');
+                    if (!this.isEditMode) {
+                        this.enableNextFields();
+                    }
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateResponsable(value) {
+                const isValid = value !== '';
+                this.updateValidationState('responsable', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('matricule_responsable', 'resp-error', 'resp-icon', '{% trans "Veuillez sélectionner un responsable" %}');
+                } else {
+                    this.showFieldSuccess('matricule_responsable', 'resp-error', 'resp-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateSociete(value) {
+                const isValid = value !== '';
+                this.updateValidationState('societe', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('codeSoc', 'soc-error', 'soc-icon', '{% trans "Veuillez sélectionner une société" %}');
+                } else {
+                    this.showFieldSuccess('codeSoc', 'soc-error', 'soc-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            showFieldError(fieldId, errorId, iconId, message) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(errorId);
+                const icon = document.getElementById(iconId);
+                
+                field.classList.add('error');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                {% comment %} icon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                icon.style.color = '#dc3545'; {% endcomment %}
+            }
+            
+            showFieldSuccess(fieldId, errorId, iconId) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(errorId);
+                const icon = document.getElementById(iconId);
+                
+                field.classList.remove('error');
+                errorDiv.style.display = 'none';
+                {% comment %} icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                icon.style.color = '#28a745'; {% endcomment %}
+            }
+            
+            clearFieldValidation(fieldId, errorId, iconId) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(errorId);
+                const icon = document.getElementById(iconId);
+                
+                field.classList.remove('error');
+                errorDiv.style.display = 'none';
+                icon.innerHTML = '';
+            }
+            
+            disableField(fieldId) {
+                const field = document.getElementById(fieldId);
+                field.disabled = true;
+                if (fieldId !== 'DateFin') {
+                    field.value = '';
+                }
+            }
+            
+            enableField(fieldId) {
+                const field = document.getElementById(fieldId);
+                field.disabled = false;
+            }
+            
+            disableNextFields() {
+                document.getElementById('responsable-group').classList.add('field-disabled');
+                document.getElementById('societe-group').classList.add('field-disabled');
+                document.getElementById('matricule_responsable').disabled = true;
+                document.getElementById('codeSoc').disabled = true;
+                if (!this.isEditMode) {
+                    document.getElementById('matricule_responsable').value = '';
+                    document.getElementById('codeSoc').value = '';
+                    this.updateValidationState('responsable', false);
+                    this.updateValidationState('societe', false);
+                }
+            }
+            
+            enableNextFields() {
+                if (this.validationState.dateDebut && this.validationState.dateFin) {
+                    document.getElementById('responsable-group').classList.remove('field-disabled');
+                    document.getElementById('societe-group').classList.remove('field-disabled');
+                    document.getElementById('matricule_responsable').disabled = false;
+                    document.getElementById('codeSoc').disabled = false;
+                }
+            }
+            
+            updateValidationState(field, isValid) {
+                this.validationState[field] = isValid;
+            }
+            
+            isFormValid() {
+                return Object.values(this.validationState).every(state => state === true);
+            }
+            
+            updateFormState() {
+                const submitBtn = document.getElementById('submit-btn');
+                if (this.isFormValid()) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('btn-secondary');
+                    submitBtn.classList.add('btn-success');
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.remove('btn-success');
+                    submitBtn.classList.add('btn-secondary');
+                }
+            }
+            
+            showToast(message, type = 'error') {
+                const toastContainer = document.getElementById('toast-container');
+                const toastId = 'toast-' + Date.now();
+                
+                const toastHtml = `
+                    <div class="toast error-toast show" id="${toastId}" role="alert">
+                        <div class="toast-header bg-${type === 'error' ? 'danger' : 'success'} text-white">
+                            <strong class="me-auto">${type === 'error' ? '<i class="fas fa-exclamation-triangle"></i> {% trans "Erreur" %}' : '<i class="fas fa-check-circle"></i> {% trans "Succès" %}'}</strong>
+                            <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                    </div>
+                `;
+                
+                toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    const toast = document.getElementById(toastId);
+                    if (toast) {
+                        toast.remove();
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Initialiser le validateur quand la page est chargée
+        document.addEventListener('DOMContentLoaded', () => {
+            new TaskFormValidator();
+        });
+    </script>
+</div>
+{% endblock %}

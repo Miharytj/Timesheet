@@ -1,0 +1,190 @@
+Etapes:
+1. Téléchargement de la dernière version de Python (3.13.0)
+2. Installation de la dernière version
+3. Mise à niveau de pip:
+	python -m pip install --upgrade pip
+
+4. Création d'un dossier pour le projet 
+   (Utiliser le dossier en tant de répertoire de travail)
+
+4. Création d'un environnement virtuel:
+	python -m venv <nom_environnement>
+
+5. Activation de l'environnement virtuel:
+	<nom_environnement>\Scripts\activate
+
+Rem: Désactivation de l'environnement
+	deactivate
+
+6. Installation de Django
+	pip3.13 install django
+
+7. Vérification de la liste des packages:
+	pip3.13 list
+
+8. Création d'un fichier de dépendance:
+	pip3.13 freeze > requirements.txt
+
+Rem: Installation des dépendances réquises via le fichier "requirements.txt":
+	pip3.13 install -r requirements.txt
+
+9. Création d'un projet Django
+   	python manage.py startproject <nom_projet>
+	djang-admin startproject <nom_projet>
+
+10. Accès à la page d'accueil du projet:
+	Lancer le serveur:
+	python manage.py runserver [port]
+
+	Accès à la page d'accueil:
+	http://127.0.0.1:<port>
+
+11. Création d'un Back-end:
+	* Migration des données d'administration:
+	python manage.py migrate
+
+	* Création d'un compte super-admin:
+	python manage.py createsuperuser
+
+12. Accès au compte admin:
+	http://127.0.0.1:<port>/admin
+
+13. Configuration du langage:
+	# Fichier: projet/projet/settings.py
+	LANGUAGE_CODE = 'fr-fr'
+
+14. Création d'une application:
+	django-admin startapp <nom_de_l_application>
+	# Exemple:
+	django-admin startapp tourisme
+
+15. Configuration de l'application:
+	# Fichier: projet/projet/settings.py
+	INSTALLED_APPS = ['nom_application.apps.<nom_application+Config>',]
+
+	# Exemple:
+	INSTALLED_APPS = [
+    		'tourisme.apps.TourismeConfig',
+	]
+
+16. Création d'un modèle:
+	# Fichier: projet/tourisme/models.py
+	from django.db import models
+
+	class Groupe(models.Model):
+		code = models.AutoField(primary_key=True)	
+		nomG = models.CharField(max_length=60)
+
+17. Migration de l'application:
+	python manage.py makemigrations <nom_application>
+
+	# Exemple:
+	python manage.py makemigrations tourisme
+
+18. Migration de l'ensemble du projet:
+	python manage.py migrate
+
+19. Création d'un dossier pour les gabarits (template):
+	# Dossier : projet/templates
+
+20. Configuration:
+	# Fichier: projet/projet/settings.py
+	import os
+	TEMPLATES = [
+    		{
+        		'DIRS': [os.path.join(BASE_DIR, 'templates')],
+		},]
+
+
+21. Création des gabarits:
+	Création des fichiers html
+
+22. Creation des vues (L'équivalent des 'controlleurs' en MVC):
+	# Fichier: projet/tourisme/views.py
+
+	from django.shortcuts import render
+	from django.views.generic import TemplateView, ListView, DetailView
+
+	class groupeView(object):
+		template_name = "listeGroupes.html"
+
+23. Création d'un url pour la vue:
+	Créer un fichier nommé urls.py dans le dossier de l'application
+	# Fichier: projet/tourisme/urls.py
+
+	from django.urls import path
+	from .views import groupeView
+
+	urlpatterns = [
+ 		path('groupe/', groupeView.as_view(),name="pageGroupe"),
+	]
+
+	Importer les urls de l'application dans le fichier urls.py du projet
+	# Fichier: projet/projet/urls.py
+
+	from django.contrib import admin
+	from django.urls import path, include
+	from tourisme import views
+
+	urlpatterns = [
+    		path('', views.groupeView.as_view()),
+    		path('admin/', admin.site.urls),
+   		path('tourisme/', include('tourisme.urls')),
+	]
+
+24. Passage de paramètre dynamique
+	urlpatterns = [
+ 		path('groupe/<type:nom>', groupeView.as_view(),name="pageGroupe"),
+	]
+
+	# Exemple:
+	urlpatterns = [
+ 		path('groupe/<int:code>', groupeView.as_view(),name="pageGroupe"),
+	]
+
+25. Utilisation du paramètre dynamique dans un gabarit (template):
+	# Exemple 01:
+	http://127.0.01:8000/tourisme/groupe/3
+	
+	# Exemple:
+	<a href="{% url 'pageGroupe' code=2 %}">Groupe numéro 2</a>
+
+26. Passage de paramètre statique: **kwargs
+	# Exemple:
+	urlpatterns = [
+ 		path('groupe/', groupeView.as_view(),
+		kwargs={"titre1":"Code", "titre2":"Nom"},
+		name="pageGroupe"),
+	]
+
+27. Surcharge de la méthode "get_context_data()":
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs) 
+		return context
+
+28. Utilisation de la valeur du paramètre statique dans un gabarit (template):
+	
+	<tr>
+		<th>{{ titre1 }}</th><th>{{ titre2 }}</th>
+	</tr>
+
+
+python manage.py runserver --verbosity 1
+python manage.py runserver --verbosity 0
+
+python manage.py runserver --noreload
+
+python manage.py makemessages -l en
+python manage.py compilemessages
+
+python manage.py runserver_plus --cert-file [chemin-vers-certificat] --key-file [chemin-vers-clé] 192.168.114.171:8000
+
+uvicorn harel_mallac.asgi:application --host 0.0.0.0 --port 8000 --reload
+uvicorn HMTM.asgi:application --host 0.0.0.0 --port 8000 --reload
+
+M!h@ryTj012016.
+
+python manage.py runserver_plus --cert-file [chemin-vers-certificat] --key-file [chemin-vers-clé] 192.168.56.1:8000
+
+pip install django-admin-rangefilter

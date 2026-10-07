@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load i18n %}
+
+{% load static %}
+
+<style>
+  .floating-window {
+    position: fixed;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: none;
+    border-radius: 5px;
+    width: auto;
+    padding: 10px;
+  }
+
+  .form-group button {
+    width: 100%;
+  }
+
+  .calendar-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .popup {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    z-index: 1000;
+    display: none;
+    border-radius: 8px;
+    width: 300px;
+    font-size: 14px;
+  }
+
+  .popup strong {
+    font-size: 16px;
+  }
+  
+  /* Style pour le popup des événements */
+  .event-popup {
+    position: fixed;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    padding: 15px;
+    z-index: 1000;
+    max-width: 350px;
+    display: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .event-popup h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    color: #333;
+  }
+  
+  .event-popup .detail-row {
+    margin-bottom: 8px;
+    display: flex;
+  }
+  
+  .event-popup .detail-label {
+    font-weight: bold;
+    min-width: 100px;
+  }
+  
+  .event-popup .detail-value {
+    flex-grow: 1;
+  }
+  
+  .event-popup .close-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .event-popup .close-btn:hover {
+    color: #333;
+  }
+  
+  /* Style spécifique pour les permissions */
+  .fc-event-permission {
+    background-color: #28a745 !important;
+    border-color: #218838 !important;
+  }
+  
+  /* Style pour la zone de recherche date */
+  .date-search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .date-search-container input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    height: 38px; /* Pour correspondre à la hauteur du select */
+  }
+  
+  .filter-container {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="filter-container">
+      <!-- Filtre par employé -->
+      <form method="get" class="d-flex align-items-center gap-2">
+        <select id="filter" class="form-select">
+          <option value="toutes">{% trans "Tous les employés" %}</option>
+          <option value="moi">{% trans "Moi" %}</option>
+        </select>
+      </form>
+      
+      <!-- Zone de recherche par date -->
+      <div class="date-search-container">
+        <input type="date" id="dateSearch" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-3">
+    <div class="card shadow-lg bg-light">
+      <h1 class="calendar-title">{% trans "Calendrier" %}</h1>
+      
+      <div id="calendar"></div>
+      <div id="floatingWindow" class="floating-window">
+        <div class="list-group">
+          <a href="{% url 'task' %}" class="list-group-item list-group-item-action event-link">
+            <i class="fas fa-plus"></i> {% trans "Ajouter une tâche" %}
+          </a>
+        </div>
+      </div>
+      
+      <!-- Popup pour afficher les détails des événements -->
+      <div id="eventPopup" class="event-popup">
+        <span class="close-btn" id="closeEventPopup">&times;</span>
+        <h4 id="eventTitle"></h4>
+        <div class="detail-row">
+          <div class="detail-label">{% trans "Type" %}:</div>
+          <div class="detail-value" id="eventType"></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">{% trans "Employé(e)" %}:</div>
+          <div class="detail-value" id="eventTechnicien"></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">{% trans "Début" %}:</div>
+          <div class="detail-value" id="eventStart"></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">{% trans "Fin" %}:</div>
+          <div class="detail-value" id="eventEnd"></div>
+        </div>
+        <div class="detail-row" id="eventDescriptionRow">
+          <div class="detail-label">{% trans "Description" %}:</div>
+          <div class="detail-value" id="eventDescription"></div>
+        </div>
+        <div class="detail-row" id="eventMotifRow">
+          <div class="detail-label">{% trans "Motif" %}:</div>
+          <div class="detail-value" id="eventMotif"></div>
+        </div>
+        <div class="detail-row" id="eventTypePermissionRow">
+          <div class="detail-label">{% trans "Type permission" %}:</div>
+          <div class="detail-value" id="eventTypePermission"></div>
+        </div>
+      </div>
+      
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var calendarEl = document.getElementById("calendar");
+          var floatingWindow = document.getElementById("floatingWindow");
+          var filterSelect = document.getElementById("filter");
+          var dateSearchInput = document.getElementById("dateSearch");
+          var calendarDate = null;
+          var eventPopup = document.getElementById("eventPopup");
+      
+          // Récupérer la langue depuis l'attribut lang de l'élément HTML
+          var userLocale = document.documentElement.lang || 'fr';
+      
+          function loadCalendarEvents(filter) {
+            calendar.refetchEvents();
+            calendar.setOption("events", "/api/events/?filtre=" + filter);
+          }
+          
+          // Formatter les dates
+          function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleString(userLocale, {
+              day: '2-digit', 
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+          }
+          
+          // Fonction pour extraire les détails de l'événement
+          function parseEventTitle(title) {
+            const details = {};
+            
+            if (title.startsWith('Tâche:')) {
+              details.type = "Tâche";
+              const descMatch = title.match(/Tâche: (.*?)\. Technicien:/);
+              if (descMatch && descMatch[1]) {
+                details.description = descMatch[1];
+              }
+              const techMatch = title.match(/Technicien: (.*?)$/);
+              if (techMatch && techMatch[1]) {
+                details.technicien = techMatch[1];
+              }
+            } 
+            else if (title.includes('Congé de:')) {
+              details.type = "Congé";
+              const techMatch = title.match(/Congé de: (.*?)\. Dates:/);
+              if (techMatch && techMatch[1]) {
+                details.technicien = techMatch[1];
+              }
+              const dateMatch = title.match(/Dates: du (.*?) au (.*?)$/);
+              if (dateMatch && dateMatch[1] && dateMatch[2]) {
+                details.motif = "Période de congé";
+              }
+            }
+            else if (title.includes('Permission:')) {
+              details.type = "Permission";
+              const techMatch = title.match(/Permission: (.*?)\. Type/);
+              if (techMatch && techMatch[1]) {
+                details.technicien = techMatch[1];
+              }
+              const typeMatch = title.match(/Type: (.*?)\./);
+              if (typeMatch && typeMatch[1]) {
+                details.typePermission = typeMatch[1];
+              }
+              const motifMatch = title.match(/Motif: (.*?)$/);
+              if (motifMatch && motifMatch[1]) {
+                details.motif = motifMatch[1];
+              }
+            }
+            
+            return details;
+          }
+      
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            locale: userLocale,
+            timeZone: "Indian/Antananarivo",
+            headerToolbar: {
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
+            },
+            buttonText: {
+              today: "{{ _('Aujourd\'hui') }}",
+              month: "{{ _('Mois') }}",
+              week: "{{ _('Semaine') }}",
+              day: "{{ _('Jour') }}",
+            },
+            dayHeaderFormat: {
+              weekday: 'long'
+            },
+            events: "/api/events/?filtre=toutes",
+            eventDidMount: function (info) {
+              info.el.setAttribute("title", info.event.title);
+              if (info.event.title.includes('Permission:')) {
+                info.el.classList.add('fc-event-permission');
+              }
+            },
+            dateClick: function(info) {
+              floatingWindow.style.display = "block";
+              floatingWindow.style.top = (info.jsEvent.clientY + 5) + "px";
+              floatingWindow.style.left = (info.jsEvent.clientX + 5) + "px";
+              calendarDate = info.dateStr;
+            },
+            eventClick: function(info) {
+              info.jsEvent.preventDefault();
+              
+              const eventDetails = parseEventTitle(info.event.title);
+              
+              document.getElementById('eventTitle').textContent = eventDetails.type;
+              document.getElementById('eventType').textContent = eventDetails.type;
+              document.getElementById('eventTechnicien').textContent = eventDetails.technicien || 'Non assigné';
+              document.getElementById('eventStart').textContent = formatDate(info.event.start);
+              document.getElementById('eventEnd').textContent = formatDate(info.event.end);
+              
+              if (eventDetails.type === 'Tâche') {
+                document.getElementById('eventDescriptionRow').style.display = 'flex';
+                document.getElementById('eventMotifRow').style.display = 'none';
+                document.getElementById('eventTypePermissionRow').style.display = 'none';
+                document.getElementById('eventDescription').textContent = eventDetails.description || '';
+              } else if (eventDetails.type === 'Congé') {
+                document.getElementById('eventDescriptionRow').style.display = 'none';
+                document.getElementById('eventMotifRow').style.display = 'flex';
+                document.getElementById('eventTypePermissionRow').style.display = 'none';
+                document.getElementById('eventMotif').textContent = eventDetails.motif || '';
+              } else if (eventDetails.type === 'Permission') {
+                document.getElementById('eventDescriptionRow').style.display = 'none';
+                document.getElementById('eventMotifRow').style.display = 'flex';
+                document.getElementById('eventTypePermissionRow').style.display = 'flex';
+                document.getElementById('eventMotif').textContent = eventDetails.motif || '';
+                document.getElementById('eventTypePermission').textContent = eventDetails.typePermission || '';
+              }
+              
+              // Positionnement très proche du curseur
+              eventPopup.style.display = 'block';
+              eventPopup.style.top = (info.jsEvent.clientY + 5) + 'px';
+              eventPopup.style.left = (info.jsEvent.clientX + 5) + 'px';
+            }
+          });
+      
+          calendar.setOption('dayHeaderContent', function(arg) {
+            const days = {
+              'Sun': "{{ _('Dim') }}",
+              'Mon': "{{ _('Lun') }}",
+              'Tue': "{{ _('Mar') }}",
+              'Wed': "{{ _('Mer') }}",
+              'Thu': "{{ _('Jeu') }}",
+              'Fri': "{{ _('Ven') }}",
+              'Sat': "{{ _('Sam') }}"
+            };
+            return days[arg.date.toString().split(' ')[0]];
+          });
+      
+          calendar.render();
+      
+          filterSelect.addEventListener("change", function() {
+            loadCalendarEvents(this.value);
+          });
+          
+          // Recherche automatique lors de la sélection d'une date
+          dateSearchInput.addEventListener("change", function() {
+            if (this.value) {
+              calendar.gotoDate(this.value);
+            }
+          });
+      
+          document.addEventListener("click", function(event) {
+            if (!floatingWindow.contains(event.target)) {
+              floatingWindow.style.display = "none";
+            }
+            
+            if (!eventPopup.contains(event.target) && !event.target.closest('.fc-event')) {
+              eventPopup.style.display = "none";
+            }
+          });
+          
+          document.getElementById('closeEventPopup').addEventListener('click', function() {
+            eventPopup.style.display = "none";
+          });
+        });
+      </script>
+    </div>
+  </div>
+</body>
+
+<div id="popup" class="popup"></div>
+
+{% endblock %}

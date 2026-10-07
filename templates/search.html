@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load i18n %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">{% trans "Recherche" %}: "{{ query }}"</h2>
+            
+            {% if results %}
+                <div class="alert alert-info">
+                    {{ results|length }} résultat(s) trouvé(s)
+                </div>
+                
+                <div class="accordion" id="resultsAccordion">
+                    {% for result in results %}
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    {% if result.type == 'employe' %}
+                                        <i class="fas fa-user me-2"></i>
+                                    {% elif result.type == 'tache' %}
+                                        <i class="fas fa-tasks me-2"></i>
+                                    {% elif result.type == 'conge' %}
+                                        <i class="fas fa-calendar-alt me-2"></i>
+                                    {% elif result.type == 'permission' %}
+                                        <i class="fas fa-key me-2"></i>
+                                    {% endif %}
+                                    {{ result.instance }}
+                                </h5>
+                                <span class="badge bg-secondary">{{ result.type|capfirst }}</span>
+                            </div>
+                            
+                            <!-- Informations personnelles / Détails de base -->
+                            <div class="card-body">
+                                <div class="accordion" id="accordion{{ forloop.counter }}">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                                    data-bs-target="#collapseInfo{{ forloop.counter }}" 
+                                                    aria-expanded="true" aria-controls="collapseInfo{{ forloop.counter }}">
+                                                {% trans "Informations détaillées" %}
+                                            </button>
+                                        </h2>
+                                        <div id="collapseInfo{{ forloop.counter }}" class="accordion-collapse collapse show" 
+                                             aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordion{{ forloop.counter }}">
+                                            <div class="accordion-body">
+                                                <div class="row">
+                                                    {% for field_name, field_value in result.fields %}
+                                                        {% if field_name != 'Tâches Assignées' and field_name != 'Congés à Venir et en Cours' and field_name != 'Pointages des 7 Derniers Jours' %}
+                                                            <div class="col-md-6 mb-2">
+                                                                <div class="d-flex">
+                                                                    <strong class="me-2">{{ field_name }}:</strong>
+                                                                    <span>{{ field_value }}</span>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {% comment %} {% if result.type == 'employe' %}
+                                        <!-- Tâches, Congés et Pointages pour les employés uniquement -->
+                                        <div class="accordion-item mt-2">
+                                            <h2 class="accordion-header" id="headingDetails{{ forloop.counter }}">
+                                                <button class="accordion-button collapsed" type="button" 
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseDetails{{ forloop.counter }}" 
+                                                        aria-expanded="false" aria-controls="collapseDetails{{ forloop.counter }}">
+                                                    {% trans "Détails supplémentaires" %}
+                                                </button>
+                                            </h2>
+                                            <div id="collapseDetails{{ forloop.counter }}" class="accordion-collapse collapse" 
+                                                 aria-labelledby="headingDetails{{ forloop.counter }}" data-bs-parent="#accordion{{ forloop.counter }}">
+                                                <div class="accordion-body">
+                                                    <div class="alert alert-info">
+                                                        <i class="fas fa-info-circle me-2"></i> {% trans "Affichage limité aux 10 entrées les plus récentes" %}
+                                                    </div>
+                                                    
+                                                    <ul class="nav nav-tabs" id="detailTabs{{ forloop.counter }}" role="tablist">
+                                                        <li class="nav-item" role="presentation">
+                                                            <button class="nav-link active" id="taches-tab{{ forloop.counter }}" data-bs-toggle="tab" 
+                                                                    data-bs-target="#taches{{ forloop.counter }}" type="button" role="tab" 
+                                                                    aria-controls="taches" aria-selected="true">
+                                                                {% trans "Tâches" %} 
+                                                                <span class="badge bg-primary rounded-pill">{{ result.taches|length }}</span>
+                                                            </button>
+                                                        </li>
+                                                        <li class="nav-item" role="presentation">
+                                                            <button class="nav-link" id="conges-tab{{ forloop.counter }}" data-bs-toggle="tab" 
+                                                                    data-bs-target="#conges{{ forloop.counter }}" type="button" role="tab" 
+                                                                    aria-controls="conges" aria-selected="false">
+                                                                {% trans "Congés" %}
+                                                                <span class="badge bg-primary rounded-pill">{{ result.conges|length }}</span>
+                                                            </button>
+                                                        </li>
+                                                        <li class="nav-item" role="presentation">
+                                                            <button class="nav-link" id="pointages-tab{{ forloop.counter }}" data-bs-toggle="tab" 
+                                                                    data-bs-target="#pointages{{ forloop.counter }}" type="button" role="tab" 
+                                                                    aria-controls="pointages" aria-selected="false">
+                                                                {% trans "Pointages" %}
+                                                                <span class="badge bg-primary rounded-pill">{{ result.pointages|length }}</span>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                    
+                                                    <div class="tab-content pt-3" id="detailTabsContent{{ forloop.counter }}">
+                                                        <!-- Tâches -->
+                                                        <div class="tab-pane fade show active" id="taches{{ forloop.counter }}" role="tabpanel" 
+                                                             aria-labelledby="taches-tab{{ forloop.counter }}">
+                                                            {% if result.taches %}
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-hover">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+                                                                                <th scope="col">{% trans "Description" %}</th>
+                                                                                <th scope="col">{% trans "Date de début" %}</th>
+                                                                                <th scope="col">{% trans "Date de fin" %}</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {% for tache in result.taches %}
+                                                                                <tr>
+                                                                                    <td>{{ tache.0 }}</td>
+                                                                                    <td>{{ tache.1 }}</td>
+                                                                                    <td>{{ tache.2 }}</td>
+                                                                                </tr>
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="alert alert-warning">
+                                                                    {% trans "Aucune tâche assignée." %}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        
+                                                        <!-- Congés -->
+                                                        <div class="tab-pane fade" id="conges{{ forloop.counter }}" role="tabpanel" 
+                                                             aria-labelledby="conges-tab{{ forloop.counter }}">
+                                                            {% if result.conges %}
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-hover">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+                                                                                <th scope="col">{% trans "Motif" %}</th>
+                                                                                <th scope="col">{% trans "Date de début" %}</th>
+                                                                                <th scope="col">{% trans "Date de fin" %}</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {% for conge in result.conges %}
+                                                                                <tr>
+                                                                                    <td>{{ conge.0 }}</td>
+                                                                                    <td>{{ conge.1 }}</td>
+                                                                                    <td>{{ conge.2 }}</td>
+                                                                                </tr>
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="alert alert-warning">
+                                                                    {% trans "Aucun congé à venir ou en cours." %}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        
+                                                        <!-- Pointages -->
+                                                        <div class="tab-pane fade" id="pointages{{ forloop.counter }}" role="tabpanel" 
+                                                             aria-labelledby="pointages-tab{{ forloop.counter }}">
+                                                            {% if result.pointages %}
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-hover">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+                                                                                <th scope="col">{% trans "Date" %}</th>
+                                                                                <th scope="col">{% trans "Heure d'arrivée" %}</th>
+                                                                                <th scope="col">{% trans "Heure de sortie" %}</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {% for pointage in result.pointages %}
+                                                                                <tr>
+                                                                                    <td>{{ pointage.0 }}</td>
+                                                                                    <td>{{ pointage.1 }}</td>
+                                                                                    <td>{{ pointage.2 }}</td>
+                                                                                </tr>
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="alert alert-warning">
+                                                                    {% trans "Aucun pointage pour les 7 derniers jours." %}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %} {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-warning mt-4">
+                    <i class="fas fa-search me-2"></i> {% trans "Aucun résultat trouvé pour" %} "{{ query }}".
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

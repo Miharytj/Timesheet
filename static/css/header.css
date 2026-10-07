@@ -1,0 +1,284 @@
+:root {
+  --primary-color: #67D0D4;
+  --secondary-color: #67D0D4;
+  --text-color: #495057;
+  --background-color: #f8f9fa;
+  --background-color-2: #343A40;
+  --white-color: #ffffff;
+  /* --shadow-color: rgba(0, 0, 0, 0.555); */
+  --navbar-shadow: 0px 4px 4px -5px rgba(0, 0, 0, 0.555);
+  --sidebar-shadow: 2px 0 4px rgba(0, 0, 0, 0.308);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Styles pour la barre de navigation (Navbar) */
+.navbar {
+  background-color: var(--white-color); /* Blanc */
+  box-shadow: var(--navbar-shadow); 
+  box-shadow: var(--primary-color); 
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: margin-left 0.3s ease; /* Animation pour le déplacement */
+}
+
+.navbar-custom .icon-bar {
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--primary-color); /* Couleur turquoise */
+  margin-right: 20px;
+}
+
+.navbar-custom .dropdown {
+  margin-left: auto; /* Aligner à droite */
+}
+
+.user-initial {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-color); /* Couleur turquoise */
+  color: var(--white-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Styles pour la barre latérale (Sidebar) */
+.sidebar {
+  width: 250px;
+  background-color: var(--background-color-2); /* Gris clair */
+  height: 100vh;
+  box-shadow: var(--sidebar-shadow);;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* z-index: 1002; */
+  z-index: 1001;
+  transition: transform 0.3s ease; /* Animation pour le déplacement */
+}
+
+.sidebar.collapsed {
+  transform: translateX(-250px); /* Cacher la sidebar */
+}
+
+.sidebar .navbar-brand {
+  display: block;
+  text-align: center;
+  margin-bottom: 45px; /* Espace en bas du logo */
+  margin-top: -15px; /* Déplace le logo 20px plus haut */
+}
+
+.sidebar .navbar-brand img {
+  width: 120px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li a {
+  color: var(--white-color);;
+  text-decoration: none;
+  display: block;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: var(--primary-color); /* Couleur turquoise */
+  font-weight: bolder;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.534);
+  color: var(--background-color-2);
+}
+
+/* Contenu principal */
+main {
+  margin-left: 250px; /* Décaler pour la sidebar */
+  margin-top: 60px;
+  padding: 30px;
+  background-color: var(--background-color);; /* Gris clair */
+  min-height: 100vh;
+  transition: margin-left 0.3s ease; /* Animation pour le déplacement */
+}
+
+main.sidebar-collapsed {
+  margin-left: 0; /* Ajuster lorsque la sidebar est cachée */
+}
+
+/* Ajustement de la navbar lorsque la sidebar est visible */
+.navbar-custom.sidebar-visible {
+  margin-left: 250px; /* Décaler la navbar vers la droite */
+}
+
+.card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.card h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--card-color);;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 10px;
+  border: 1px solid var(--secondary-color);;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+  border-color: #00796B;
+  box-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
+}
+
+.search-icon-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--secondary-color);;
+  font-size: 18px;
+}
+
+#message-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1050;
+  width: auto;
+  max-width: 90%;
+  text-align: center;
+}
+
+.alert {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px auto;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Media Queries pour le responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* La sidebar prend toute la largeur */
+    transform: translateX(-100%); /* Cacher la sidebar par défaut */
+    /* max-width: 250px; */
+    /* left: -250px; */
+  }
+
+  .sidebar.collapsed {
+    transform: translateX(-100%); /* Garder la sidebar cachée */
+  }
+
+  .sidebar.visible {
+    transform: translateX(0); /* Afficher la sidebar */
+  }
+
+  main {
+    margin-left: 0; /* Ajuster le contenu principal */
+    /* position: fixed; */
+  }
+
+  .navbar-custom.sidebar-visible {
+    margin-left: 0; /* Ajuster la navbar */
+  }
+
+  .icon-bar {
+    display: block; /* Toujours afficher l'icône bars */
+  }
+
+  .search-container {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .navbar-custom .dropdown {
+    margin-left: 10px; /* Réduit l'espace entre le menu et l'icône */
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    width: 70%; /* La sidebar prend toute la largeur */
+    transform: translateX(-100%); /* Cacher la sidebar par défaut */
+    /* max-width: 250px; */
+  }
+
+  .sidebar.collapsed {
+    transform: translateX(-100%); /* Garder la sidebar cachée */
+  }
+
+  .sidebar.visible {
+    transform: translateX(0); /* Afficher la sidebar */
+  }
+
+  main {
+    margin-left: 0; /* Ajuster le contenu principal */
+    /* position: fixed; */
+  }
+
+  .navbar-custom.sidebar-visible {
+    margin-left: 0; /* Ajuster la navbar */
+  }
+
+  .icon-bar {
+    display: block; /* Toujours afficher l'icône bars */
+  }
+
+  .search-container {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+  }
+  
+  .navbar-custom .dropdown {
+    margin-left: 10px; /* Réduit l'espace entre le menu et l'icône */
+  }
+}

@@ -1,0 +1,488 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load i18n %}
+    
+<style>
+    .card-header-with-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn-redirect {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+    .nav-tabs .nav-link {
+        color: #666;
+        border: 1px solid transparent;
+        background: transparent;
+    }
+    .nav-tabs .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
+    .nav-tabs .nav-link:hover {
+        border-color: #e9ecef #e9ecef #dee2e6;
+    }
+    .chart-container {
+        position: relative;
+        height: 300px;
+    }
+</style>
+
+    <div class="container-fluid">
+        <!-- En-tête avec filtres -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                            <h1 class="mb-0">{% trans "Tableau de Bord" %}</h1>
+                            <p class="text-muted mb-0">
+                                <small>{% trans "Dernière mise à jour" %} : {{ current_datetime|date:"j F Y H:i" }}</small>
+                            </p>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <form method="get" class="d-flex align-items-center">
+                                    <input type="hidden" name="view_type" value="{{ view_type }}">
+                                    <label class="me-2 text-nowrap">{% trans "Période" %}: </label>
+                                    <select name="period" class="form-select" onchange="this.form.submit()">
+                                        <option value="all" {% if period == 'all' %}selected{% endif %}>{% trans "Toutes les périodes" %}</option>
+                                        <option value="day" {% if period == 'day' %}selected{% endif %}>{% trans "Aujourd'hui" %}</option>
+                                        <option value="week" {% if period == 'week' %}selected{% endif %}>{% trans "Cette semaine" %}</option>
+                                        <option value="month" {% if period == 'month' %}selected{% endif %}>{% trans "Ce mois" %}</option>
+                                        <option value="year" {% if period == 'year' %}selected{% endif %}>{% trans "Cette année" %}</option>
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <form method="get" class="d-flex align-items-center">
+                                    <input type="hidden" name="period" value="{{ period }}">
+                                    <label class="me-2 text-nowrap">{% trans "Affichage" %}: </label>
+                                    <select name="view_type" class="form-select" onchange="this.form.submit()">
+                                        <option value="all" {% if view_type == 'all' %}selected{% endif %}>{% trans "Toutes les données" %}</option>
+                                        <option value="personal" {% if view_type == 'personal' %}selected{% endif %}>{% trans "Mes données" %}</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cartes statistiques -->
+        <div class="row g-3 mb-4">
+            <!-- Tâches -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-primary">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-primary mb-1">{% trans "Tâches" %}</div>
+                                    {% comment %} <a href="{% url 'task' %}" class="btn btn-outline-primary btn-sm btn-redirect">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a> {% endcomment %}
+                                </div>
+                                <div class="h5 mb-0">{{ total_taches }}</div>
+                                <div class="small text-muted">
+                                    {% trans "En cours" %}: {{ taches_en_cours }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-tasks stat-icon text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Congés -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-success">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-success mb-1">{% trans "Congés" %}</div>
+                                    {% comment %} <a href="{% url 'list_conges' %}" class="btn btn-outline-success btn-sm btn-redirect">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a> {% endcomment %}
+                                </div>
+                                <div class="h5 mb-0">{{ total_conges }}</div>
+                                <div class="small text-muted">
+                                    {% trans "Ce mois" %}: {{ conges_ce_mois }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar stat-icon text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permissions -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-warning">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-warning mb-1">{% trans "Permissions" %}</div>
+                                    {% comment %} <a href="{% url 'permission_list' %}" class="btn btn-outline-warning btn-sm btn-redirect">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a> {% endcomment %}
+                                </div>
+                                <div class="h5 mb-0">{{ total_permissions }}</div>
+                                <div class="small text-muted">
+                                    {% trans "Aujourd'hui" %}: {{ permissions_aujourd_hui }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clock stat-icon text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pointages -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card stat-card border-info">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="text-info mb-1">{% trans "Pointages" %}</div>
+                                    {% comment %} <a href="{% url 'pointage' %}" class="btn btn-outline-info btn-sm btn-redirect">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a> {% endcomment %}
+                                </div>
+                                <div class="h5 mb-0">{{ total_pointages }}</div>
+                                <div class="small text-muted">
+                                    {% trans "Retards" %}: {{ retards_aujourd_hui }}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-fingerprint stat-icon text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphiques et tableaux -->
+        <div class="row">
+            <!-- Tâches par société -->
+            <div class="col-xl-6 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3 card-header-with-btn">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            {% trans "Tâches par Société" %}
+                        </h6>
+                        <a href="{% url 'task' %}" class="btn btn-outline-primary btn-sm btn-redirect">
+                            {% trans "Voir tout" %}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="chartTachesSociete"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Congés/Permissions par technicien avec onglets -->
+            <div class="col-xl-6 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="conges-tab" data-bs-toggle="tab" data-bs-target="#conges" type="button" role="tab" aria-controls="conges" aria-selected="true">
+                                        {% trans "Congés" %}
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="permissions-tab" data-bs-toggle="tab" data-bs-target="#permissions" type="button" role="tab" aria-controls="permissions" aria-selected="false">
+                                        {% trans "Permissions" %}
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'list_conges' %}" class="btn btn-outline-success btn-sm btn-redirect">
+                                    {% trans "Congés" %}
+                                </a>
+                                <a href="{% url 'permission_list' %}" class="btn btn-outline-warning btn-sm btn-redirect">
+                                    {% trans "Permissions" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="conges" role="tabpanel" aria-labelledby="conges-tab">
+                                <div class="chart-container">
+                                    <canvas id="chartCongesTechnicien"></canvas>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="permissions" role="tabpanel" aria-labelledby="permissions-tab">
+                                <div class="chart-container">
+                                    <canvas id="chartPermissionsTechnicien"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Tâches récentes -->
+            <div class="col-xl-6 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3 card-header-with-btn">
+                        <h6 class="m-0 font-weight-bold text-primary">{% trans "Tâches Récentes" %}</h6>
+                        <a href="{% url 'task' %}" class="btn btn-outline-primary btn-sm btn-redirect">
+                            {% trans "Voir tout" %}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans "Réf" %}</th>
+                                        <th>{% trans "Nom" %}</th>
+                                        <th>{% trans "Société" %}</th>
+                                        <th>{% trans "Statut" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tache in recent_taches %}
+                                    <tr>
+                                        <td>{{ tache.RefTache }}</td>
+                                        <td>{{ tache.NomTache }}</td>
+                                        <td>{{ tache.codeSoc.NomSociete }}</td>
+                                        <td>
+                                            {% if not tache.DateDebut %}
+                                                <span class="badge bg-secondary">{% trans "Non commencée" %}</span>
+                                            {% elif tache.DateFin and tache.DateFin < current_datetime %}
+                                                <span class="badge bg-success">{% trans "Terminée" %}</span>
+                                            {% else %}
+                                                <span class="badge bg-primary">{% trans "En cours" %}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pointages récents -->
+            <div class="col-xl-6 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3 card-header-with-btn">
+                        <h6 class="m-0 font-weight-bold text-info">{% trans "Pointages Récents" %}</h6>
+                        <a href="{% url 'pointage' %}" class="btn btn-outline-info btn-sm btn-redirect">
+                            {% trans "Voir tout" %}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans "Employé(e)" %}</th>
+                                        <th>{% trans "Date" %}</th>
+                                        <th>{% trans "Arrivée" %}</th>
+                                        <th>{% trans "Sortie" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for pointage in recent_pointages %}
+                                    <tr>
+                                        <td>{{ pointage.matricule.nom }} {{ pointage.matricule.prenom }}</td>
+                                        <td>{{ pointage.datePoint|date:"d/m/Y" }}</td>
+                                        <td class="{% if pointage.est_en_retard %}retard{% else %}a-temps{% endif %}">
+                                            {{ pointage.heureArrivee|time:"H:i" }}
+                                        </td>
+                                        <td>{{ pointage.heureSortie|time:"H:i" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script> {% endcomment %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>    
+
+    <script>
+        $(document).ready(function() {
+            const translations = {
+                tasks: '{% trans "Nombre de tâches" %}',
+                leaves: '{% trans "Nombre de congés" %}',
+                permissions: '{% trans "Nombre de permissions" %}'
+            };
+
+            // Configuration des graphiques
+            const tachesSocieteData = {
+                labels: [{% for tache in taches_par_societe %}'{{ tache.codeSoc__NomSociete }}',{% endfor %}],
+                datasets: [{
+                    label: translations.tasks,
+                    data: [{% for tache in taches_par_societe %}{{ tache.total }},{% endfor %}],
+                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
+                    borderColor: 'rgba(78, 115, 223, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const congesTechnicienData = {
+                labels: [{% for conge in conges_par_technicien %}'{{ conge.matricule_Technicien__nom }}',{% endfor %}],
+                datasets: [{
+                    label: translations.leaves,
+                    data: [{% for conge in conges_par_technicien %}{{ conge.total }},{% endfor %}],
+                    backgroundColor: [{% for conge in conges_par_technicien %}'{{ conge.couleur }}',{% endfor %}],
+                    borderWidth: 1
+                }]
+            };
+
+            // Données des permissions par technicien
+            const permissionsTechnicienData = {
+                labels: [{% for permission in permissions_par_technicien %}'{{ permission.matricule_Technicien__nom }}',{% endfor %}],
+                datasets: [{
+                    label: translations.permissions,
+                    data: [{% for permission in permissions_par_technicien %}{{ permission.total }},{% endfor %}],
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Variables pour stocker les instances des graphiques
+            let chartConges, chartPermissions;
+
+            // Graphique des tâches par société
+            new Chart(document.getElementById('chartTachesSociete'), {
+                type: 'bar',
+                data: tachesSocieteData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Fonction pour créer le graphique des congés
+            function createCongesChart() {
+                const ctx = document.getElementById('chartCongesTechnicien');
+                if (chartConges) {
+                    chartConges.destroy();
+                }
+                chartConges = new Chart(ctx, {
+                    type: 'pie',
+                    data: congesTechnicienData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Fonction pour créer le graphique des permissions
+            function createPermissionsChart() {
+                const ctx = document.getElementById('chartPermissionsTechnicien');
+                if (chartPermissions) {
+                    chartPermissions.destroy();
+                }
+                chartPermissions = new Chart(ctx, {
+                    type: 'pie',
+                    data: permissionsTechnicienData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Initialiser le graphique des congés
+            createCongesChart();
+
+            // Gestion des onglets
+            const congesTab = document.getElementById('conges-tab');
+            const permissionsTab = document.getElementById('permissions-tab');
+
+            congesTab.addEventListener('shown.bs.tab', function (e) {
+                setTimeout(() => {
+                    createCongesChart();
+                }, 100);
+            });
+
+            permissionsTab.addEventListener('shown.bs.tab', function (e) {
+                setTimeout(() => {
+                    createPermissionsChart();
+                }, 100);
+            });
+
+            // Préserver les filtres lors du rechargement automatique
+            const currentPeriod = '{{ period }}';
+            const currentViewType = '{{ view_type }}';
+            
+            // Rafraîchissement automatique toutes les 5 minutes avec conservation des filtres
+            setInterval(function() {
+                const url = new URL(window.location.href);
+                url.searchParams.set('period', currentPeriod);
+                url.searchParams.set('view_type', currentViewType);
+                window.location.href = url.toString();
+            }, 300000);
+        });
+    </script>
+{% endblock %}

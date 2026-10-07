@@ -1,0 +1,65 @@
+/* Empêcher les retours à la ligne dans les cellules */
+.nowrap {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Améliorations de design */
+.container {
+    font-family: 'Arial', sans-serif;
+}
+
+.table {
+    background-color: #f8f9fa;
+}
+
+.table-dark th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Défilement horizontal élégant */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ombre et coins arrondis */
+.shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.rounded {
+    border-radius: 15px;
+}
+
+/* Espacement des éléments */
+.gap-3 {
+    gap: 1rem !important;
+}

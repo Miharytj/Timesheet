@@ -1,0 +1,21 @@
+ 
+# Environnement virtuel
+venv/
+
+# Fichiers d'environnement
+.env
+.env.*
+
+# Fichiers Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers de base de données SQLite
+db.sqlite3
+
+# Fichiers médias locaux
+media/
+
+# Fichiers statiques collectés
+staticfiles/

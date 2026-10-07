@@ -1,0 +1,2767 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-27 09:22+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\app\admin.py:14 .\harel_mallac\settings.py:9
+#: .\templates\admin\base_site.html:28 .\templates\base.html:104
+#: .\templates\base.html:106 .\templates\welcome.html:18
+#: .\templates\welcome.html:20
+msgid "Français"
+msgstr "French"
+
+#: .\app\admin.py:14 .\templates\admin\base_site.html:29
+#: .\templates\base.html:105 .\templates\welcome.html:19
+msgid "Anglais"
+msgstr "English"
+
+#: .\app\admin.py:30 .\templates\dashboard.html:311
+#: .\templates\permission\form.html:31
+#: .\templates\permission\permission.html:19
+msgid "Date"
+msgstr "Date"
+
+#: .\app\admin.py:35 .\templates\calendar\calendar.html:277
+#: .\templates\dashboard.html:55 .\templates\dashboard.html:147
+#: .\templates\pointage\pointage.html:89
+#: .\templates\timesheet\timesheet_view.html:95
+msgid "Aujourd'hui"
+msgstr "Today"
+
+#: .\app\admin.py:36
+msgid "Hier"
+msgstr ""
+
+#: .\app\admin.py:37 .\templates\dashboard.html:56
+msgid "Cette semaine"
+msgstr "This week"
+
+#: .\app\admin.py:38
+#, fuzzy
+#| msgid "Semaine du"
+msgid "Semaine dernière"
+msgstr "Week of"
+
+#: .\app\admin.py:39 .\templates\dashboard.html:57
+#: .\templates\dashboard.html:121
+msgid "Ce mois"
+msgstr "This month"
+
+#: .\app\admin.py:40
+msgid "Mois dernier"
+msgstr ""
+
+#: .\app\admin.py:69
+#, python-format
+msgid ""
+"%(field_name)s ne peut pas être antérieure à l'année actuelle "
+"(%(current_year)s)."
+msgstr ""
+
+#: .\app\admin.py:93 .\app\admin.py:115
+msgid "La date de début ne peut pas être supérieure à la date de fin."
+msgstr ""
+
+#: .\app\admin.py:137
+msgid "L'heure de début ne peut pas être supérieure ou égale à l'heure de fin."
+msgstr ""
+
+#: .\app\admin.py:160
+msgid ""
+"L'heure d'arrivée ne peut pas être supérieure ou égale à l'heure de sortie."
+msgstr ""
+
+#: .\app\models.py:9
+#, fuzzy
+#| msgid "Code Service"
+msgid "Code du service"
+msgstr "Service code"
+
+#: .\app\models.py:10 .\app\translation.py:6 .\templates\people\people.html:30
+msgid "Poste"
+msgstr "Job"
+
+#: .\app\models.py:16 .\app\models.py:47 .\app\translation.py:16
+#: .\templates\people\people.html:100
+msgid "Service"
+msgstr "Service"
+
+#: .\app\models.py:17
+msgid "Services"
+msgstr "Services"
+
+#: .\app\models.py:20
+#, fuzzy
+#| msgid "Nom de la Société"
+msgid "Code de la société"
+msgstr "Company name"
+
+#: .\app\models.py:21
+#, fuzzy
+#| msgid "Nom de la Société"
+msgid "Nom de la société"
+msgstr "Company name"
+
+#: .\app\models.py:27 .\app\models.py:66 .\app\translation.py:25
+#: .\templates\dashboard.html:268 .\templates\task\form.html:85
+#: .\templates\task\task.html:59 .\templates\timesheet\timesheet_view.html:234
+msgid "Société"
+msgstr "Company"
+
+#: .\app\models.py:28 .\templates\base.html:50
+msgid "Sociétés"
+msgstr "Company"
+
+#: .\app\models.py:31
+#, fuzzy
+#| msgid "Code Type de Permission"
+msgid "Code du type de permission"
+msgstr "Permission type code"
+
+#: .\app\models.py:32 .\app\models.py:38 .\app\models.py:99
+#, fuzzy
+#| msgid "Type de Permission"
+msgid "Type de permission"
+msgstr "Permission type"
+
+#: .\app\models.py:39
+#, fuzzy
+#| msgid "Types de Permission"
+msgid "Types de permission"
+msgstr "Permission type"
+
+#: .\app\models.py:42
+#, fuzzy
+#| msgid "Matricule Employé"
+msgid "Matricule de l'employé"
+msgstr "Registration number"
+
+#: .\app\models.py:43 .\app\translation.py:12 .\templates\dashboard.html:267
+#: .\templates\people\people.html:82
+msgid "Nom"
+msgstr "Name"
+
+#: .\app\models.py:44 .\app\translation.py:13 .\templates\people\people.html:85
+msgid "Prénom"
+msgstr "First name"
+
+#: .\app\models.py:45 .\app\translation.py:14 .\templates\people\people.html:36
+#: .\templates\people\people.html:97
+msgid "Adresse"
+msgstr "Address"
+
+#: .\app\models.py:46 .\app\translation.py:15
+msgid "E-mail"
+msgstr "E-mail"
+
+#: .\app\models.py:48 .\templates\people\people.html:103
+msgid "Département"
+msgstr ""
+
+#: .\app\models.py:49
+#, fuzzy
+#| msgid "Numéro Téléphone"
+msgid "Numéro téléphone"
+msgstr "Phone number"
+
+#: .\app\models.py:50
+#, fuzzy
+#| msgid "Nom d'utilisateur :"
+msgid "Nom d'utilisateur"
+msgstr "Username :"
+
+#: .\app\models.py:56 .\app\models.py:68 .\app\models.py:84 .\app\models.py:101
+#: .\app\models.py:117 .\app\translation.py:40
+#: .\templates\timesheet\timesheet_view.html:170
+msgid "Employé"
+msgstr "Worker"
+
+#: .\app\models.py:57 .\templates\base.html:51
+msgid "Employés"
+msgstr "Worker"
+
+#: .\app\models.py:60
+#, fuzzy
+#| msgid "Référence Tâche"
+msgid "Référence tâche"
+msgstr "Task reference"
+
+#: .\app\models.py:61 .\templates\task\task.html:55
+msgid "Date d'ajout"
+msgstr "Date added"
+
+#: .\app\models.py:62
+#, fuzzy
+#| msgid "Nom de la Tâche"
+msgid "Nom de la tâche"
+msgstr "Task name"
+
+#: .\app\models.py:63 .\app\translation.py:22
+#: .\templates\calendar\calendar.html:179 .\templates\task\form.html:34
+#: .\templates\task\task.html:56
+msgid "Description"
+msgstr "Description"
+
+#: .\app\models.py:64 .\app\models.py:80 .\app\models.py:96
+#: .\templates\permission\form.html:38
+#, fuzzy
+#| msgid "Date de début"
+msgid "Date et heure de début"
+msgstr "Start date"
+
+#: .\app\models.py:65 .\app\models.py:81 .\app\models.py:97
+#: .\templates\permission\form.html:45
+#, fuzzy
+#| msgid "Date de fin"
+msgid "Date et heure de fin"
+msgstr "End date"
+
+#: .\app\models.py:67 .\app\models.py:83 .\app\models.py:100
+#: .\app\translation.py:26 .\templates\leave\form.html:61
+#: .\templates\leave\leave.html:24 .\templates\permission\form.html:59
+#: .\templates\permission\permission.html:23 .\templates\task\form.html:71
+#: .\templates\task\task.html:60
+msgid "Responsable"
+msgstr "Responsible"
+
+#: .\app\models.py:74
+msgid "Tâche"
+msgstr "Task"
+
+#: .\app\models.py:75 .\templates\base.html:46 .\templates\dashboard.html:87
+msgid "Tâches"
+msgstr "Task"
+
+#: .\app\models.py:78
+#, fuzzy
+#| msgid "Numéro de Congé"
+msgid "Numéro de congé"
+msgstr "Leave number"
+
+#: .\app\models.py:79 .\app\models.py:95 .\templates\leave\form.html:20
+msgid "Date de demande"
+msgstr "Date of request"
+
+#: .\app\models.py:82 .\app\translation.py:32 .\app\translation.py:37
+#: .\templates\calendar\calendar.html:183 .\templates\leave\form.html:53
+#: .\templates\leave\leave.html:23 .\templates\permission\form.html:52
+#: .\templates\permission\permission.html:22
+#: .\templates\timesheet\timesheet_view.html:244
+msgid "Motif"
+msgstr "Pattern"
+
+#: .\app\models.py:90
+msgid "Congé"
+msgstr "Leave"
+
+#: .\app\models.py:91 .\templates\base.html:47 .\templates\dashboard.html:113
+#: .\templates\dashboard.html:214 .\templates\dashboard.html:225
+msgid "Congés"
+msgstr "Leaves"
+
+#: .\app\models.py:94 .\app\translation.py:33
+msgid "ID Permission"
+msgstr "Permission ID"
+
+#: .\app\models.py:98
+#, fuzzy
+#| msgid "Motif"
+msgid "Motifs"
+msgstr "Pattern"
+
+#: .\app\models.py:104
+#, python-format
+msgid "Permission %(id)s : %(nom)s %(prenom)s"
+msgstr ""
+
+#: .\app\models.py:111
+msgid "Permission"
+msgstr "Permission"
+
+#: .\app\models.py:112 .\templates\base.html:48 .\templates\dashboard.html:139
+#: .\templates\dashboard.html:219 .\templates\dashboard.html:228
+msgid "Permissions"
+msgstr "Permission"
+
+#: .\app\models.py:115 .\app\translation.py:38
+msgid "ID Pointage"
+msgstr "Score ID"
+
+#: .\app\models.py:116
+#, fuzzy
+#| msgid "Date de Pointage"
+msgid "Date du pointage"
+msgstr "Score date"
+
+#: .\app\models.py:118 .\templates\pointage\pointage.html:210
+msgid "Heure d'arrivée"
+msgstr "Arrival time"
+
+#: .\app\models.py:119 .\templates\pointage\pointage.html:215
+msgid "Heure de sortie"
+msgstr "Exit time"
+
+#: .\app\models.py:120 .\templates\pointage\pointage.html:220
+msgid "Remarque"
+msgstr ""
+
+#: .\app\models.py:126 .\templates\base.html:38
+#: .\templates\pointage\pointage.html:150
+msgid "Pointage"
+msgstr "Pointing"
+
+#: .\app\models.py:127 .\templates\dashboard.html:165
+msgid "Pointages"
+msgstr "Pointing"
+
+#: .\app\translation.py:5
+msgid "Code Service"
+msgstr "Service code"
+
+#: .\app\translation.py:7
+msgid "Code Société"
+msgstr "Company code"
+
+#: .\app\translation.py:8 .\templates\societe\form.html:20
+#: .\templates\societe\societe.html:19
+msgid "Nom de la Société"
+msgstr "Company name"
+
+#: .\app\translation.py:9
+msgid "Code Type de Permission"
+msgstr "Permission type code"
+
+#: .\app\translation.py:10 .\templates\permission\form.html:71
+#: .\templates\permission\permission.html:25
+msgid "Type de Permission"
+msgstr "Permission type"
+
+#: .\app\translation.py:11
+msgid "Matricule Employé"
+msgstr "Registration number"
+
+#: .\app\translation.py:17
+msgid "Numéro Téléphone"
+msgstr "Phone number"
+
+#: .\app\translation.py:18
+msgid "Utilisateur"
+msgstr "User"
+
+#: .\app\translation.py:19
+msgid "Référence Tâche"
+msgstr "Task reference"
+
+#: .\app\translation.py:20
+msgid "Date d'Ajout"
+msgstr "Date added"
+
+#: .\app\translation.py:21 .\templates\task\form.html:27
+#: .\templates\task\task.html:54
+msgid "Nom de la Tâche"
+msgstr "Task name"
+
+#: .\app\translation.py:23 .\app\translation.py:30
+#: .\templates\task\form.html:41 .\templates\task\task.html:57
+msgid "Date de Début"
+msgstr "Start date"
+
+#: .\app\translation.py:24 .\app\translation.py:31
+#: .\templates\task\form.html:56 .\templates\task\task.html:58
+msgid "Date de Fin"
+msgstr "End date"
+
+#: .\app\translation.py:27
+msgid "Technicien"
+msgstr "Technician"
+
+#: .\app\translation.py:28
+msgid "Numéro de Congé"
+msgstr "Leave number"
+
+#: .\app\translation.py:29 .\templates\leave\leave.html:18
+msgid "Date de Demande"
+msgstr "Date of request"
+
+#: .\app\translation.py:34
+msgid "Date de Permission"
+msgstr "Permission date"
+
+#: .\app\translation.py:35 .\templates\permission\permission.html:20
+msgid "Heure Début"
+msgstr "Start time"
+
+#: .\app\translation.py:36 .\templates\permission\permission.html:21
+msgid "Heure Fin"
+msgstr "End time"
+
+#: .\app\translation.py:39
+msgid "Date de Pointage"
+msgstr "Score date"
+
+#: .\app\translation.py:41
+msgid "Heure d'Arrivée"
+msgstr "Arrival time"
+
+#: .\app\translation.py:42
+msgid "Heure de Sortie"
+msgstr "Exit time"
+
+#: .\app\views.py:804
+msgid "Jour de l'An"
+msgstr "New Year's Day"
+
+#: .\app\views.py:805
+msgid "Journée internationale des femmes"
+msgstr "International Women's Day"
+
+#: .\app\views.py:806
+msgid "Jour des martyrs"
+msgstr "Martyrs' Day"
+
+#: .\app\views.py:807
+msgid "Pâques"
+msgstr "Easter"
+
+#: .\app\views.py:808
+msgid "Lundi de Pâques"
+msgstr "Easter Monday"
+
+#: .\app\views.py:809
+msgid "Fête du Travail"
+msgstr "Labor Day"
+
+#: .\app\views.py:810
+msgid "Ascension"
+msgstr "Ascension Day"
+
+#: .\app\views.py:811
+msgid "Pentecôte"
+msgstr "Pentecost"
+
+#: .\app\views.py:812
+msgid "Lundi de Pentecôte"
+msgstr "Pentecost Monday"
+
+#: .\app\views.py:813
+msgid "Jour de l'Indépendance"
+msgstr "Independence Day"
+
+#: .\app\views.py:814
+msgid "Assomption de Marie"
+msgstr "Assumption of Mary"
+
+#: .\app\views.py:815
+msgid "Toussaint"
+msgstr "All Saints' Day"
+
+#: .\app\views.py:816
+msgid "Noël"
+msgstr "Christmas"
+
+#: .\app\views.py:817
+msgid "Saint-Sylvestre"
+msgstr "New Year's Eve"
+
+#: .\harel_mallac\settings.py:10
+msgid "English"
+msgstr ""
+
+#: .\modeltranslation\widgets.py:32
+#: .\new_env\Lib\site-packages\modeltranslation\widgets.py:32
+msgid "None"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\_termui_impl.py:556
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\_termui_impl.py:560
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1124
+msgid "Aborted!"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1349
+#: .\new_env\Lib\site-packages\click\core.py:1379
+#, python-brace-format
+msgid "(Deprecated) {text}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1396
+#, fuzzy
+#| msgid "Actions"
+msgid "Options"
+msgstr "Actions"
+
+#: .\new_env\Lib\site-packages\click\core.py:1422
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1438
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1645
+msgid "Commands"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1677
+msgid "Missing command."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:1755
+msgid "No such command {name!r}."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:2313
+msgid "Value must be an iterable."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:2334
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\click\core.py:2783
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:2813
+msgid "(dynamic)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:2828
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\core.py:2841
+msgid "required"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\decorators.py:457
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\decorators.py:520
+msgid "Show the version and exit."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\decorators.py:541
+msgid "Show this message and exit."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:49
+#: .\new_env\Lib\site-packages\click\exceptions.py:88
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:80
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:129
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:131
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:187
+msgid "Missing argument"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:189
+msgid "Missing option"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:191
+msgid "Missing parameter"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:193
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:200
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:220
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:232
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:270
+msgid "unknown error"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\exceptions.py:277
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\formatting.py:156
+msgid "Usage:"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\parser.py:233
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\parser.py:415
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\parser.py:476
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\click\shell_completion.py:326
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\shell_completion.py:333
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\termui.py:243
+msgid "Error: invalid input"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:267
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:299
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\click\types.py:393
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\click\types.py:415
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:471
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:612
+msgid "{value!r} is not a valid boolean."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:636
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:826
+#, fuzzy
+#| msgid "Profile"
+msgid "file"
+msgstr "Profil"
+
+#: .\new_env\Lib\site-packages\click\types.py:828
+msgid "directory"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:830
+msgid "path"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:881
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:890
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:898
+msgid "{name} {filename!r} is a directory."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:907
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:916
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:925
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\click\types.py:992
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\new_env\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:70
+msgid "Enter a valid domain name."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:155
+#: .\new_env\Lib\site-packages\django\forms\fields.py:768
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:216
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:227
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\new_env\Lib\site-packages\django\core\validators.py:310
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:318
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:330
+#: .\new_env\Lib\site-packages\django\core\validators.py:339
+#: .\new_env\Lib\site-packages\django\core\validators.py:353
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2215
+#, python-format
+msgid "Enter a valid %(protocol)s address."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:332
+msgid "IPv4"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:341
+#: .\new_env\Lib\site-packages\django\utils\ipv6.py:30
+msgid "IPv6"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:355
+msgid "IPv4 or IPv6"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:396
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:402
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:437
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:446
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:455
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:462
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:494
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:512
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:535
+#: .\new_env\Lib\site-packages\django\forms\fields.py:359
+#: .\new_env\Lib\site-packages\django\forms\fields.py:398
+msgid "Enter a number."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:537
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:542
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:547
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:618
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\core\validators.py:680
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\base.py:1572
+#: .\new_env\Lib\site-packages\django\forms\models.py:908
+msgid "and"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\base.py:1574
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\constraints.py:22
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:134
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:136
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:137
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:141
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:180
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1156
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1157
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1159
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1209
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1211
+msgid "String (unlimited)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1320
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1421
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1425
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1560
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1429
+msgid "Date (without time)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1556
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
+"HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1564
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1569
+msgid "Date (with time)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1696
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1698
+msgid "Decimal number"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1859
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1863
+msgid "Duration"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1915
+msgid "Email address"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:1940
+msgid "File path"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2018
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2020
+msgid "Floating point number"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2060
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2062
+msgid "Integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2158
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2175
+msgid "Small integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2183
+msgid "IPv4 address"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2214
+msgid "IP address"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2305
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2306
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2308
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2359
+msgid "Positive big integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2374
+msgid "Positive integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2389
+msgid "Positive small integer"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2405
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2441
+msgid "Text"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2521
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2525
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2529
+msgid "Time"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2637
+msgid "URL"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2661
+msgid "Raw binary data"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2726
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\__init__.py:2728
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\files.py:244
+msgid "File"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\files.py:420
+msgid "Image"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\json.py:24
+msgid "A JSON object"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\related.py:932
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\related.py:934
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\related.py:1228
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\related.py:1285
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\related.py:1287
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\db\models\fields\related.py:1335
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\new_env\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:308
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:479
+#: .\new_env\Lib\site-packages\django\forms\fields.py:1260
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:502
+#: .\new_env\Lib\site-packages\django\forms\fields.py:1261
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:529
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:563
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:564
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:633
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:634
+msgid "No file was submitted."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:635
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:637
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:642
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:710
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:882
+#: .\new_env\Lib\site-packages\django\forms\fields.py:968
+#: .\new_env\Lib\site-packages\django\forms\models.py:1592
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:970
+#: .\new_env\Lib\site-packages\django\forms\fields.py:1089
+#: .\new_env\Lib\site-packages\django\forms\models.py:1590
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:1090
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:1329
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\fields.py:1359
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\new_env\Lib\site-packages\django\forms\forms.py:94
+msgid ":"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\forms.py:230
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\forms\formsets.py:484
+#: .\new_env\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:901
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:906
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:913
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:922
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:1359
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:1450
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\models.py:1594
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\utils.py:227
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\widgets.py:461
+msgid "Clear"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\widgets.py:462
+msgid "Currently"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\widgets.py:463
+msgid "Change"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\widgets.py:800
+msgid "Unknown"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\widgets.py:801
+msgid "Yes"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\forms\widgets.py:802
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:873
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:903
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:920
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:922
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:924
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:926
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:928
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\template\defaultfilters.py:930
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dateformat.py:74
+msgid "p.m."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dateformat.py:75
+msgid "a.m."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dateformat.py:80
+msgid "PM"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dateformat.py:81
+msgid "AM"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dateformat.py:153
+msgid "midnight"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dateformat.py:155
+msgid "noon"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\text.py:75
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\text.py:286
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\new_env\Lib\site-packages\django\utils\text.py:305
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:64
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:115
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:349
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\generic\list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\static.py:49
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\static.py:51
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\static.py:68
+#: .\new_env\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\new_env\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:204
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:208
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:217
+msgid "Django Documentation"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:218
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:226
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:227
+msgid "Get started with Django"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:235
+msgid "Django Community"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\django\views\templates\default_urlconf.html:236
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\sympy\solvers\simplex.py:564
+msgid "x"
+msgstr ""
+
+#: .\new_env\Lib\site-packages\sympy\solvers\simplex.py:565
+msgid "y"
+msgstr ""
+
+#: .\templates\account\login.html:9
+msgid "Connexion"
+msgstr "Login"
+
+#: .\templates\account\login.html:31
+msgid "Pseudo"
+msgstr ""
+
+#: .\templates\account\login.html:37
+#, fuzzy
+#| msgid "Mots de passe"
+msgid "Mot de passe"
+msgstr "Password"
+
+#: .\templates\account\login.html:42 .\templates\welcome.html:36
+msgid "Se connecter"
+msgstr "Login"
+
+#: .\templates\admin\base_site.html:6
+msgid "Administration du site"
+msgstr "Site administration"
+
+#: .\templates\admin\base_site.html:12
+msgid "Mon Administration"
+msgstr "Site administration"
+
+#: .\templates\admin\base_site.html:20
+msgid "Voir le site"
+msgstr "Go to the site"
+
+#: .\templates\admin\base_site.html:22 .\templates\welcome.html:45
+msgid "Harel Mallac Technologies Madagascar"
+msgstr ""
+
+#: .\templates\aide.html:6 .\templates\base.html:99
+msgid "Support"
+msgstr "Support"
+
+#: .\templates\aide.html:16
+msgid "Email : miharisoatendry@gmail.com"
+msgstr ""
+
+#: .\templates\aide.html:17
+msgid "Téléphone : 038 05 266 67"
+msgstr "Phone number : 038 05 266 67"
+
+#: .\templates\base.html:8
+msgid "Mon timesheet"
+msgstr "My timesheet"
+
+#: .\templates\base.html:35
+msgid "Tableau de bord"
+msgstr "Dashboard"
+
+#: .\templates\base.html:36 .\templates\timesheet\timesheet_view.html:157
+msgid "Feuille de temps"
+msgstr "Timesheet"
+
+#: .\templates\base.html:37 .\templates\calendar\calendar.html:147
+msgid "Calendrier"
+msgstr "Calendar"
+
+#: .\templates\base.html:42 .\templates\base.html:90
+#: .\templates\timesheet\timesheet_view.html:229
+msgid "Détails"
+msgstr "Details"
+
+#: .\templates\base.html:49
+msgid "Horaires"
+msgstr "Schedules"
+
+#: .\templates\base.html:65
+msgid "Rechercher..."
+msgstr "Search..."
+
+#: .\templates\base.html:77
+msgid "Profile"
+msgstr "Profil"
+
+#: .\templates\base.html:94
+msgid "Pas d'employé associé"
+msgstr "No associated employee"
+
+#: .\templates\base.html:122
+msgid "Déconnexion"
+msgstr "Logout"
+
+#: .\templates\base.html:126
+msgid "Se connecter en tant qu'admin"
+msgstr "Login as admin"
+
+#: .\templates\calendar\calendar.html:133
+#: .\templates\pointage\pointage.html:112
+#: .\templates\timesheet\timesheet_view.html:119
+msgid "Tous les employés"
+msgstr "All employees"
+
+#: .\templates\calendar\calendar.html:134
+msgid "Moi"
+msgstr "Me"
+
+#: .\templates\calendar\calendar.html:153
+msgid "Ajouter une tâche"
+msgstr "Add task"
+
+#: .\templates\calendar\calendar.html:163
+#: .\templates\timesheet\timesheet_view.html:249
+msgid "Type"
+msgstr "Type"
+
+#: .\templates\calendar\calendar.html:167 .\templates\dashboard.html:310
+#: .\templates\leave\form.html:75 .\templates\leave\leave.html:25
+#: .\templates\permission\permission.html:24
+#: .\templates\pointage\pointage.html:162
+msgid "Employé(e)"
+msgstr "Employee"
+
+#: .\templates\calendar\calendar.html:171
+#, fuzzy
+#| msgid "Date Début"
+msgid "Début"
+msgstr "Start date"
+
+#: .\templates\calendar\calendar.html:175
+msgid "Fin"
+msgstr "End Date"
+
+#: .\templates\calendar\calendar.html:187
+#, fuzzy
+#| msgid "Type de Permission"
+msgid "Type permission"
+msgstr "Permission type"
+
+#: .\templates\calendar\calendar.html:278
+msgid "Mois"
+msgstr "Month"
+
+#: .\templates\calendar\calendar.html:279
+msgid "Semaine"
+msgstr "Week"
+
+#: .\templates\calendar\calendar.html:280
+msgid "Jour"
+msgstr "Day"
+
+#: .\templates\calendar\calendar.html:336
+msgid "Dim"
+msgstr "Sun"
+
+#: .\templates\calendar\calendar.html:337
+msgid "Lun"
+msgstr "Mon"
+
+#: .\templates\calendar\calendar.html:338
+msgid "Mar"
+msgstr "Tue"
+
+#: .\templates\calendar\calendar.html:339
+msgid "Mer"
+msgstr "Wed"
+
+#: .\templates\calendar\calendar.html:340
+msgid "Jeu"
+msgstr "Thu"
+
+#: .\templates\calendar\calendar.html:341
+msgid "Ven"
+msgstr "Fri"
+
+#: .\templates\calendar\calendar.html:342
+msgid "Sam"
+msgstr "Sat"
+
+#: .\templates\calendar\schedule.html:5
+msgid "Événements de l'année"
+msgstr "Events of the year"
+
+#: .\templates\calendar\schedule.html:8
+msgid "Calendrier des Fêtes"
+msgstr "Holiday Calendar"
+
+#: .\templates\calendar\schedule.html:24
+msgid "Aucun événement pour cette année."
+msgstr "No events for this year."
+
+#: .\templates\dashboard.html:42
+msgid "Tableau de Bord"
+msgstr "Dashboard"
+
+#: .\templates\dashboard.html:44
+msgid "Dernière mise à jour"
+msgstr "Last update"
+
+#: .\templates\dashboard.html:52 .\templates\timesheet\timesheet_view.html:239
+msgid "Période"
+msgstr "Period"
+
+#: .\templates\dashboard.html:54
+msgid "Toutes les périodes"
+msgstr "All periods"
+
+#: .\templates\dashboard.html:58
+msgid "Cette année"
+msgstr "This year"
+
+#: .\templates\dashboard.html:65
+msgid "Affichage"
+msgstr "Display"
+
+#: .\templates\dashboard.html:67
+msgid "Toutes les données"
+msgstr "All Data"
+
+#: .\templates\dashboard.html:68
+msgid "Mes données"
+msgstr "My data"
+
+#: .\templates\dashboard.html:95 .\templates\dashboard.html:284
+msgid "En cours"
+msgstr "In progress"
+
+#: .\templates\dashboard.html:173
+msgid "Retards"
+msgstr "Delay"
+
+#: .\templates\dashboard.html:192
+msgid "Tâches par Société"
+msgstr "Task by company"
+
+#: .\templates\dashboard.html:195 .\templates\dashboard.html:258
+#: .\templates\dashboard.html:302
+msgid "Voir tout"
+msgstr "Show all"
+
+#: .\templates\dashboard.html:256
+msgid "Tâches Récentes"
+msgstr "Recent tasks"
+
+#: .\templates\dashboard.html:266
+msgid "Réf"
+msgstr "Reference"
+
+#: .\templates\dashboard.html:269
+msgid "Statut"
+msgstr "Status"
+
+#: .\templates\dashboard.html:280
+msgid "Non commencée"
+msgstr "Status not started"
+
+#: .\templates\dashboard.html:282
+msgid "Terminée"
+msgstr "Finished"
+
+#: .\templates\dashboard.html:300
+msgid "Pointages Récents"
+msgstr "Recent pointing"
+
+#: .\templates\dashboard.html:312
+msgid "Arrivée"
+msgstr "Arrived"
+
+#: .\templates\dashboard.html:313
+msgid "Sortie"
+msgstr "Exit"
+
+#: .\templates\dashboard.html:344
+msgid "Nombre de tâches"
+msgstr "Task number"
+
+#: .\templates\dashboard.html:345
+msgid "Nombre de congés"
+msgstr "Leave list"
+
+#: .\templates\dashboard.html:346
+#, fuzzy
+#| msgid "Type de Permission"
+msgid "Nombre de permissions"
+msgstr "Permission type"
+
+#: .\templates\employe\afficher_employe.html:8
+msgid "Détails du profil"
+msgstr "Profil details"
+
+#: .\templates\employe\afficher_employe.html:9 .\templates\leave\form.html:7
+#: .\templates\societe\form.html:7 .\templates\task\form.html:7
+msgid "Modifier"
+msgstr "Edit"
+
+#: .\templates\employe\afficher_employe.html:14
+#: .\templates\people\people.html:79
+msgid "Informations personnelles"
+msgstr "Personnal informations"
+
+#: .\templates\employe\afficher_employe.html:15
+msgid "Nom :"
+msgstr "Name :"
+
+#: .\templates\employe\afficher_employe.html:16
+msgid "Prénom(s) :"
+msgstr "First name :"
+
+#: .\templates\employe\afficher_employe.html:17
+msgid "Adresse :"
+msgstr "Address"
+
+#: .\templates\employe\afficher_employe.html:18
+msgid "Email :"
+msgstr "E-mail :"
+
+#: .\templates\employe\afficher_employe.html:19
+msgid "Numéro :"
+msgstr "Phone number :"
+
+#: .\templates\employe\afficher_employe.html:20
+msgid "Service :"
+msgstr "Service :"
+
+#: .\templates\employe\afficher_employe.html:21
+msgid "Département :"
+msgstr "Department"
+
+#: .\templates\employe\afficher_employe.html:28
+msgid "Mon compte"
+msgstr "My account"
+
+#: .\templates\employe\afficher_employe.html:29
+msgid "Nom d'utilisateur :"
+msgstr "Username :"
+
+#: .\templates\employe\afficher_employe.html:30
+msgid "Email utilisateur :"
+msgstr "User email :"
+
+#: .\templates\employe\afficher_employe.html:31
+msgid "Dernière connexion :"
+msgstr "Last connection :"
+
+#: .\templates\employe\afficher_employe.html:32
+msgid "Actif :"
+msgstr "Active :"
+
+#: .\templates\employe\afficher_employe.html:33
+msgid "Super administrateur :"
+msgstr "Staff :"
+
+#: .\templates\employe\afficher_employe.html:37
+msgid "Aucun utilisateur lié."
+msgstr "No linked users."
+
+#: .\templates\employe\modifier_employe.html:7
+msgid "Modifier vos informations"
+msgstr "Edit your informations"
+
+#: .\templates\employe\modifier_employe.html:9 .\templates\leave\form.html:9
+#: .\templates\permission\form.html:9 .\templates\societe\form.html:9
+#: .\templates\task\form.html:9
+msgid "Annuler"
+msgstr "Cancel"
+
+#: .\templates\employe\modifier_employe.html:10 .\templates\leave\form.html:10
+#: .\templates\societe\form.html:10 .\templates\task\form.html:10
+msgid "Enregistrer"
+msgstr "Save"
+
+#: .\templates\leave\form.html:7 .\templates\permission\form.html:10
+#: .\templates\societe\form.html:7 .\templates\task\form.html:7
+msgid "Ajouter"
+msgstr "Add"
+
+#: .\templates\leave\form.html:7
+msgid "un congé"
+msgstr "a leave"
+
+#: .\templates\leave\form.html:31
+msgid "Date de début"
+msgstr "Start date"
+
+#: .\templates\leave\form.html:42
+msgid "Date de fin"
+msgstr "End date"
+
+#: .\templates\leave\form.html:63
+#, fuzzy
+#| msgid "Sélectionner une responsable"
+msgid "Sélectionner un responsable"
+msgstr "Select a manager"
+
+#: .\templates\leave\form.html:231 .\templates\permission\form.html:223
+#: .\templates\task\form.html:248
+msgid "Veuillez corriger les erreurs avant de soumettre le formulaire"
+msgstr "Please correct any errors before submitting the form"
+
+#: .\templates\leave\form.html:257
+msgid "La date de demande doit être entre"
+msgstr "The request date must be between"
+
+#: .\templates\leave\form.html:257 .\templates\leave\form.html:298
+#: .\templates\leave\form.html:347 .\templates\permission\form.html:252
+#: .\templates\permission\form.html:301 .\templates\permission\form.html:348
+#: .\templates\task\form.html:303 .\templates\task\form.html:341
+msgid "et"
+msgstr "and"
+
+#: .\templates\leave\form.html:262
+msgid "La date de demande ne peut pas être dans le futur"
+msgstr "Application date cannot be in the future"
+
+#: .\templates\leave\form.html:298 .\templates\permission\form.html:301
+#: .\templates\task\form.html:303
+msgid "La date de début doit être entre"
+msgstr "The start date must be between"
+
+#: .\templates\leave\form.html:303
+msgid "La date de début doit être postérieure ou égale à la date de demande"
+msgstr "Start date must be on or after application date"
+
+#: .\templates\leave\form.html:347 .\templates\permission\form.html:348
+#: .\templates\task\form.html:341
+msgid "La date de fin doit être entre"
+msgstr "The end date must be between"
+
+#: .\templates\leave\form.html:352 .\templates\permission\form.html:353
+#: .\templates\task\form.html:346
+msgid "La date de fin doit être postérieure à la date de début"
+msgstr "End date must be later than start date"
+
+#: .\templates\leave\form.html:378 .\templates\permission\form.html:375
+msgid "Le motif doit contenir au moins 04 caractères"
+msgstr "The pattern must contain at least 04 characters"
+
+#: .\templates\leave\form.html:393 .\templates\permission\form.html:390
+#: .\templates\task\form.html:372
+#, fuzzy
+#| msgid "Sélectionner une responsable"
+msgid "Veuillez sélectionner un responsable"
+msgstr "Select a manager"
+
+#: .\templates\leave\form.html:499 .\templates\permission\form.html:515
+#: .\templates\task\form.html:491
+msgid "Erreur"
+msgstr "Error"
+
+#: .\templates\leave\form.html:499 .\templates\permission\form.html:515
+#: .\templates\task\form.html:491
+msgid "Succès"
+msgstr ""
+
+#: .\templates\leave\leave.html:7
+msgid "Liste des congés"
+msgstr "Leave list"
+
+#: .\templates\leave\leave.html:9
+msgid "Ajouter un Congé"
+msgstr "Add task"
+
+#: .\templates\leave\leave.html:17
+msgid "Numéro"
+msgstr "Leave number"
+
+#: .\templates\leave\leave.html:19
+msgid "Date Début"
+msgstr "Start date"
+
+#: .\templates\leave\leave.html:20
+msgid "Date Fin"
+msgstr "End date"
+
+#: .\templates\leave\leave.html:43
+msgid "Aucun congé trouvé."
+msgstr "No leave found."
+
+#: .\templates\people\people.html:4
+msgid "Liste des Employés"
+msgstr "List of employees"
+
+#: .\templates\people\people.html:30 .\templates\people\people.html:100
+msgid "Aucun"
+msgstr "None"
+
+#: .\templates\people\people.html:33 .\templates\people\people.html:94
+#, fuzzy
+#| msgid "Numéro Téléphone"
+msgid "Téléphone"
+msgstr "Phone number"
+
+#: .\templates\people\people.html:39 .\templates\people\people.html:88
+#, fuzzy
+#| msgid "Matricule Employé"
+msgid "Matricule"
+msgstr "Registration number"
+
+#: .\templates\people\people.html:91
+#, fuzzy
+#| msgid "E-mail"
+msgid "Email"
+msgstr "E-mail"
+
+#: .\templates\people\people.html:94 .\templates\people\people.html:103
+msgid "Non renseigné"
+msgstr ""
+
+#: .\templates\permission\form.html:7 .\templates\permission\permission.html:9
+msgid "Ajouter une Permission"
+msgstr "Add permission"
+
+#: .\templates\permission\form.html:61
+msgid "Sélectionner un Responsable"
+msgstr "Select a manager"
+
+#: .\templates\permission\form.html:73
+msgid "Sélectionnez un Type de Permission"
+msgstr "Permission type"
+
+#: .\templates\permission\form.html:252
+msgid "La date doit être entre"
+msgstr "The date must be between"
+
+#: .\templates\permission\form.html:257
+msgid "La date ne peut pas être dans le futur"
+msgstr "The date cannot be in the future"
+
+#: .\templates\permission\form.html:306
+msgid "La date de début doit être postérieure ou égale à la date"
+msgstr "Start date must be on or after"
+
+#: .\templates\permission\form.html:403
+#, fuzzy
+#| msgid "Sélectionnez un Type de Permission"
+msgid "Veuillez sélectionner un type de permission"
+msgstr "Permission type"
+
+#: .\templates\permission\permission.html:7
+msgid "Liste des Permissions"
+msgstr "List of permissions"
+
+#: .\templates\permission\permission.html:18
+msgid "ID"
+msgstr "ID"
+
+#: .\templates\permission\permission.html:42
+msgid "Aucune permission trouvée."
+msgstr "No leave found."
+
+#: .\templates\pointage\pointage.html:88
+#: .\templates\timesheet\timesheet_view.html:93
+msgid "Semaine du"
+msgstr "Week of"
+
+#: .\templates\pointage\pointage.html:98
+#: .\templates\timesheet\timesheet_view.html:105
+msgid "Tous les services"
+msgstr "All services"
+
+#: .\templates\pointage\pointage.html:155
+msgid "DATES: Du"
+msgstr "DATE: from"
+
+#: .\templates\pointage\pointage.html:155
+#: .\templates\timesheet\timesheet_view.html:163
+msgid "au"
+msgstr "to"
+
+#: .\templates\pointage\pointage.html:205
+#, fuzzy
+#| msgid "Détails du profil"
+msgid "Détails du pointage"
+msgstr "Profil details"
+
+#: .\templates\search.html:8
+#, fuzzy
+#| msgid "Rechercher..."
+msgid "Recherche"
+msgstr "Search..."
+
+#: .\templates\search.html:42
+#, fuzzy
+#| msgid "Informations personnelles"
+msgid "Informations détaillées"
+msgstr "Personnal informations"
+
+#: .\templates\search.html:214
+#, fuzzy
+#| msgid "Aucun congé trouvé."
+msgid "Aucun résultat trouvé pour"
+msgstr "No leave found."
+
+#: .\templates\societe\form.html:7
+msgid "une Société"
+msgstr "a company"
+
+#: .\templates\societe\societe.html:7
+msgid "Liste des Sociétés"
+msgstr "Company list"
+
+#: .\templates\societe\societe.html:9
+msgid "Ajouter une Société"
+msgstr "Add company"
+
+#: .\templates\societe\societe.html:30
+msgid "Aucune société trouvée."
+msgstr "No company found."
+
+#: .\templates\task\form.html:7
+msgid "une Tâche"
+msgstr "a task"
+
+#: .\templates\task\form.html:19
+msgid "Référence de la tâche"
+msgstr "Task reference"
+
+#: .\templates\task\form.html:73
+msgid "-- Sélectionnez un responsable --"
+msgstr "Select a manager"
+
+#: .\templates\task\form.html:87
+msgid "-- Sélectionnez une société --"
+msgstr "Select a company"
+
+#: .\templates\task\form.html:259
+msgid "Le nom doit contenir au moins 3 caractères"
+msgstr "The name must contain at least 3 characters"
+
+#: .\templates\task\form.html:274
+msgid "La description doit contenir au moins 04 caractères"
+msgstr "The description must contain at least 04 characters"
+
+#: .\templates\task\form.html:304
+msgid "Date de début invalide. Année autorisée:"
+msgstr "Start date invalid. Year allowed:"
+
+#: .\templates\task\form.html:385
+#, fuzzy
+#| msgid "-- Sélectionnez une société --"
+msgid "Veuillez sélectionner une société"
+msgstr "Select a company"
+
+#: .\templates\task\task.html:30
+msgid "Liste des tâches"
+msgstr "Task list"
+
+#: .\templates\task\task.html:32
+msgid "Ajouter une nouvelle tâche"
+msgstr "Add task"
+
+#: .\templates\task\task.html:39
+msgid "Mes Tâches"
+msgstr "My task"
+
+#: .\templates\task\task.html:40
+msgid "Toutes les Tâches"
+msgstr "All tasks"
+
+#: .\templates\task\task.html:53
+msgid "Référence"
+msgstr "Reference"
+
+#: .\templates\task\task.html:61
+msgid "Technicien Assigné"
+msgstr "Assigned Technician"
+
+#: .\templates\task\task.html:62
+msgid "Actions"
+msgstr "Actions"
+
+#: .\templates\task\task.html:90
+msgid "Aucune tâche trouvée."
+msgstr "No task found."
+
+#: .\templates\timesheet\timesheet_view.html:163
+msgid "DATE: Du"
+msgstr "DATE: from"
+
+#: .\templates\welcome.html:9
+msgid "Page de bienvenue"
+msgstr "Welcome page"
+
+#: .\templates\welcome.html:32
+msgid "Bienvenue"
+msgstr "Welcome"
+
+#: .\templates\welcome.html:45
+msgid "TimeSheet by Tj"
+msgstr ""
+
+#: .\templates\welcome.html:53
+#, fuzzy
+#| msgid "Gérez votre temps avec la Timesheet"
+msgid "Gérez votre temps avec la TimeSheet"
+msgstr "Manage your time with the timesheet"
+
+#: .\templates\welcome.html:54
+msgid "Simplifiez votre pointage quotidien"
+msgstr "Simplify your daily check-in"
+
+#: .\templates\welcome.html:55
+msgid "Organisez votre calendrier efficacement"
+msgstr "Organize your calendar effectively"
+
+#~ msgid "Congés par Technicien"
+#~ msgstr "Leave per technician"
+
+#~ msgid "Date de fin "
+#~ msgstr "End date"
+
+#~ msgid "Aucune tâche assignée."
+#~ msgstr "No tasks assigned."
+
+#~ msgid "Aucun congé à venir ou en cours."
+#~ msgstr "No upcoming or current holidays."
+
+#~ msgid "Aucun pointage pour les 7 derniers jours."
+#~ msgstr "No scores for the last 7 days."
+
+#~ msgid "Sélectionner un(e) employé(e)"
+#~ msgstr "Select a worker"
+
+#~ msgid "Résultats de la recherche"
+#~ msgstr "Search results"
+
+#~ msgid "Informations personnelles de"
+#~ msgstr "Personnal informations"
+
+#~ msgid "Détails : tâches, congés et pointages"
+#~ msgstr "Details: tasks, leave and punches"
+
+#~ msgid "Tâches assignées"
+#~ msgstr "Assigned tasks"
+
+#~ msgid "Congés à venir et en cours"
+#~ msgstr "Upcoming and current holidays"
+
+#~ msgid "Pointages des 7 derniers jours"
+#~ msgstr "Scores from the last 7 days"
+
+#~ msgid "Feuilles de temps"
+#~ msgstr "Timesheet"
+
+#~ msgid "Aide"
+#~ msgstr "Help"
+
+#~ msgid "Sélectionner un technicien"
+#~ msgstr "Select a worker"
+
+#, fuzzy
+#~| msgid "Aujourd'hui"
+#~ msgid "Aujourd\\"
+#~ msgstr "Today"
+
+#~| msgid "Connexion"
+#~ msgid "Nom de connexion"
+#~ msgstr "Login name"
+
+#~| msgid "Tâche"
+#~ msgid "Tache"
+#~ msgstr "Task"
+
+#~| msgid "Tâche"
+#~ msgid "Taches"
+#~ msgstr "Task"

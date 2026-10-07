@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+{% block content %}
+{% load i18n %}
+{% load static %}
+<style>
+  .popup {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    z-index: 1000;
+    display: none;
+    border-radius: 8px;
+    width: 350px;
+    font-size: 14px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .popup-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .popup-close {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .popup-section {
+    margin-bottom: 10px;
+  }
+  .popup-section-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .task-details {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    transition: background-color 0.2s;
+  }
+  .task-details:hover {
+    background-color: #f5f5f5;
+  }
+  .task-tache {
+    background-color: #e8f4f8;
+    border-left: 3px solid #3498db;
+  }
+  .task-conge {
+    background-color: #fdebd0;
+    border-left: 3px solid #f39c12;
+  }
+  .task-permission {
+    background-color: #e8f8e8;
+    border-left: 3px solid #2ecc71;
+  }
+  .badge-type {
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    margin-right: 5px;
+  }
+  .badge-tache {
+    background-color: #3498db;
+    color: white;
+  }
+  .badge-conge {
+    background-color: #f39c12;
+    color: white;
+  }
+  .badge-permission {
+    background-color: #2ecc71;
+    color: white;
+  }
+</style>
+<div class="">
+  <div class="">
+    <!-- Contrôles du calendrier -->
+    <div class="navbar-expand calendar-controls d-flex align-items-center gap-2 border-bottom pb-4">
+      <div class="btn-group" role="group">
+        <button id="prev" class="btn btn-outline-primary" data-url="?service={{ selected_service }}&start_date={{ prev_week }}">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="next" class="btn btn-outline-primary" data-url="?service={{ selected_service }}&start_date={{ next_week }}">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <span class="current-date fw-bold" id="calendar-title">{% trans "Semaine du" %} {{ current_week }}</span>
+      <button id="today" class="btn btn-outline-secondary" data-url="?service={{ selected_service }}&start_date={{ today }}">
+        {% trans "Aujourd'hui" %}
+      </button>
+    </div>
+
+    <!-- Filtre -->
+    <div class="container">
+      <div class="filter-container">
+        <form method="get" class="d-flex align-items-center gap-2">
+          <!-- Filtre par service -->
+          <select id="service-filter" name="service" class="form-select">
+            <option value="all" {% if selected_service == 'all' %}selected{% endif %}>{% trans "Tous les services" %}</option>
+            {% for service in services %}
+              <option value="{{ service.codeS }}" {% if service.codeS|stringformat:"s" == selected_service %}selected{% endif %}>
+                {{ service.poste }}
+              </option>
+            {% endfor %}
+          </select>      
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-filter"></i>
+          </button>
+        </form>      
+        <form method="get" class="d-flex align-items-center gap-2">      
+          <!-- Filtre par employé -->
+          <select id="employee-filter" name="employee" class="form-select">
+            <option value="all" {% if selected_employee == 'all' %}selected{% endif %}>{% trans "Tous les employés" %}</option>
+            {% for employee in employees %}
+              <option value="{{ employee.matricule }}" {% if employee.matricule|stringformat:"s" == selected_employee %}selected{% endif %}>
+                {{ employee.nom }} {{ employee.prenom }}
+              </option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-filter"></i>
+          </button>
+        </form> 
+
+        <form method="get" class="d-flex align-items-center gap-2">
+          <input type="date" id="start_date" name="start_date" class="form-control" required />
+          <input type="hidden" id="end_date" name="end_date" value="{{ end_date }}" />
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-download"></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+            <li><a class="dropdown-item download-pdf" href="#"><i class="fa fa-file-pdf"></i> PDF</a></li>
+            <li><a class="dropdown-item download-png" href="#"><i class="fa fa-image"></i> PNG</a></li>
+            <li><a class="dropdown-item download-jpg" href="#"><i class="fa fa-image"></i> JPG</a></li>
+            <li><a class="dropdown-item download-excel" href="#"><i class="fa fa-file-excel"></i> Excel "BETA"</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light card shadow-lg my-3">
+  <div class="d-flex justify-content-between align-items-center mb-4 ml-2 mr-2 mt-2">
+    <h1>{% trans "Feuille de temps" %}</h1>
+  </div>
+  
+  <div class="timesheet-container">
+    <h5 class="text-center">
+      <span class="d-flex justify-content-center current-date fw-bold text-decoration-none" id="calendar-title">
+        {% trans "DATE: Du" %} {{ start_of_week|date:"d/m/Y" }} {% trans "au" %} {{ end_of_week|date:"d/m/Y" }}
+      </span>
+    </h5>        
+    <div class="table-responsive">
+      <table class="table table-bordered timesheet-table">
+        <thead class="table-light">
+          <tr>
+            <th class="text-center">{% trans "Employé" %}</th>
+            {% for day in days_of_week %}
+            <th class="text-center">{{ day|date:"D d/m" }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in technicien_data %}
+          <tr>
+            <td class="employee-name fw-bold">{{ item.technicien.nom }} {{ item.technicien.prenom }}</td>
+            {% for day in days_of_week %}
+            <td class="{% if day == current_day %}table-primary bg-custom{% endif %}">
+              {% for tache in item.taches %}
+              {% if tache.date == day %}
+              <div class="task-details {% if tache.type == 'tache' %}task-tache{% elif tache.type == 'conge' %}task-conge{% elif tache.type == 'permission' %}task-permission{% endif %}" 
+                   data-id="{{ tache.id }}"
+                   data-type="{{ tache.type }}"
+                   data-title="{% if tache.type == 'tache' %}{{ tache.NomTache|default:tache.description }}{% elif tache.type == 'conge' %}Congé{% elif tache.type == 'permission' %}Permission{% endif %}"
+                   data-description="{{ tache.description|default:'' }}"
+                   data-societe="{{ tache.societe|default:'' }}"
+                   data-debut="{% if tache.type == 'tache' %}{{ tache.DateDebut|date:'d/m/Y H:i'|default:'' }}{% elif tache.type == 'conge' %}{{ tache.DateDeb|date:'d/m/Y'|default:'' }}{% elif tache.type == 'permission' %}{{ tache.DatePer|date:'d/m/Y'|default:'' }} {{ tache.HeureDebPer|time:'H:i'|default:'' }}{% endif %}"
+                   data-fin="{% if tache.type == 'tache' %}{{ tache.DateFin|date:'d/m/Y H:i'|default:'' }}{% elif tache.type == 'conge' %}{{ tache.DateFin|date:'d/m/Y'|default:'' }}{% elif tache.type == 'permission' %}{{ tache.DatePer|date:'d/m/Y'|default:'' }} {{ tache.HeureFinPer|time:'H:i'|default:'' }}{% endif %}"
+                   data-motif="{% if tache.type == 'conge' %}{{ tache.MotifCo|default:'' }}{% elif tache.type == 'permission' %}{{ tache.MotifPer|default:'' }}{% endif %}"
+                   data-type-detail="{% if tache.type == 'conge' %}{{ tache.tconges.type_conge|default:'' }}{% elif tache.type == 'permission' %}{{ tache.codetype.Type|default:'' }}{% endif %}">
+                <span class="badge-type {% if tache.type == 'tache' %}badge-tache{% elif tache.type == 'conge' %}badge-conge{% elif tache.type == 'permission' %}badge-permission{% endif %}">
+                  {% if tache.type == 'tache' %}Tâche{% elif tache.type == 'conge' %}Congé{% elif tache.type == 'permission' %}Perm.{% endif %}
+                </span>
+                {% if tache.type == 'tache' %}
+                  {% if tache.societe %}
+                    <strong>{{ tache.societe }}</strong>
+                  {% endif %}
+                  {% if tache.NomTache %}
+                    {{ tache.NomTache }}
+                  {% endif %}
+                {% elif tache.type == 'conge' %}
+                  <strong>Congé</strong>
+                {% elif tache.type == 'permission' %}
+                  <strong>Permission {% if tache.codetype %}({{ tache.codetype.Type }}){% endif %} ({{ tache.HeureDebPer|time:"H:i" }} - {{ tache.HeureFinPer|time:"H:i" }})</strong>
+                {% endif %}
+              </div>
+              {% endif %}
+              {% endfor %}
+            </td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="popup" class="popup">
+  <div class="popup-header">
+    <span id="popup-title"></span>
+    <span class="popup-close">&times;</span>
+  </div>
+  <div id="popup-content">
+    <div class="popup-section">
+      <div class="popup-section-title">{% trans "Détails" %}</div>
+      <div id="popup-details"></div>
+    </div>
+    
+    <div class="popup-section" id="popup-societe-section">
+      <div class="popup-section-title">{% trans "Société" %}</div>
+      <div id="popup-societe"></div>
+    </div>
+    
+    <div class="popup-section">
+      <div class="popup-section-title">{% trans "Période" %}:</div>
+      <div id="popup-period"></div>
+    </div>
+    
+    <div class="popup-section" id="popup-motif-section">
+      <div class="popup-section-title">{% trans "Motif" %}</div>
+      <div id="popup-motif"></div>
+    </div>
+
+    <div class="popup-section" id="popup-type-section">
+      <div class="popup-section-title">{% trans "Type" %}</div>
+      <div id="popup-type-detail"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Gestion des clics sur les détails des tâches pour afficher le popup amélioré
+      document.querySelectorAll('.task-details').forEach(function(element) {
+          element.addEventListener('click', function(event) {
+              event.stopPropagation();
+              
+              var popup = document.getElementById('popup');
+              var type = this.getAttribute('data-type');
+              var title = this.getAttribute('data-title');
+              var description = this.getAttribute('data-description');
+              var societe = this.getAttribute('data-societe');
+              var debut = this.getAttribute('data-debut');
+              var fin = this.getAttribute('data-fin');
+              var motif = this.getAttribute('data-motif');
+              var typeDetail = this.getAttribute('data-type-detail');
+              
+              // Remplir le popup avec les informations détaillées
+              document.getElementById('popup-title').textContent = title;
+              document.getElementById('popup-details').textContent = description || 'Aucune description disponible';
+              
+              // Afficher/masquer la section société selon le type
+              var societeSection = document.getElementById('popup-societe-section');
+              if (type === 'tache' && societe) {
+                  societeSection.style.display = 'block';
+                  document.getElementById('popup-societe').textContent = societe;
+              } else {
+                  societeSection.style.display = 'none';
+              }
+              
+              // Période (date de début et de fin)
+              document.getElementById('popup-period').innerHTML = '<strong>Début:</strong> ' + debut + '<br><strong>Fin:</strong> ' + fin;
+              
+              // Afficher/masquer la section motif selon le type
+              var motifSection = document.getElementById('popup-motif-section');
+              if ((type === 'conge' || type === 'permission') && motif) {
+                  motifSection.style.display = 'block';
+                  document.getElementById('popup-motif').textContent = motif;
+              } else {
+                  motifSection.style.display = 'none';
+              }
+              
+              // Afficher/masquer la section type selon le type
+              var typeSection = document.getElementById('popup-type-section');
+              if ((type === 'conge' || type === 'permission') && typeDetail) {
+                  typeSection.style.display = 'block';
+                  document.getElementById('popup-type-detail').textContent = typeDetail;
+              } else {
+                  typeSection.style.display = 'none';
+              }
+              
+              // Positionner et afficher le popup
+              popup.style.display = 'block';
+              
+              // Calcul de la position pour éviter que le popup sorte de l'écran
+              var rect = element.getBoundingClientRect();
+              var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+              var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+              
+              var popupWidth = popup.offsetWidth;
+              var popupHeight = popup.offsetHeight;
+              var windowWidth = window.innerWidth;
+              var windowHeight = window.innerHeight;
+              
+              var left = rect.left + scrollLeft;
+              var top = rect.top + scrollTop;
+              
+              // Ajuster la position si le popup dépasse la fenêtre
+              if (left + popupWidth > windowWidth + scrollLeft) {
+                  left = windowWidth + scrollLeft - popupWidth - 10;
+              }
+              
+              if (top + popupHeight > windowHeight + scrollTop) {
+                  top = windowHeight + scrollTop - popupHeight - 10;
+              }
+              
+              popup.style.left = left + 'px';
+              popup.style.top = top + 'px';
+          });
+      });
+      
+      // Fermer le popup quand on clique sur le X
+      document.querySelector('.popup-close').addEventListener('click', function() {
+          document.getElementById('popup').style.display = 'none';
+      });
+  
+      // Masquer le popup lorsqu'on clique en dehors
+      document.addEventListener('click', function(event) {
+          var popup = document.getElementById('popup');
+          if (!event.target.closest('.task-details') && !event.target.closest('#popup')) {
+              popup.style.display = 'none';
+          }
+      });
+  
+      // Navigation dans le calendrier (Précédent, Suivant, Aujourd'hui)
+      document.querySelectorAll('#prev, #next').forEach(button => {
+          button.addEventListener('click', function () {
+              window.location.href = this.getAttribute('data-url');
+          });
+      });
+  
+      document.getElementById('today').addEventListener('click', function () {
+          var today = new Date();
+          var dayOfWeek = today.getDay(); // 0 = Dimanche, 1 = Lundi, ..., 6 = Samedi
+  
+          // Ajuster pour que la date de début soit toujours un lundi
+          var startDate = new Date(today);
+          startDate.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); // Si dimanche, recule de 6 jours, sinon ajuste au lundi
+  
+          var formattedStartDate = startDate.toISOString().split('T')[0];
+          window.location.href = `?service={{ selected_service }}&start_date=${formattedStartDate}`;
+      });
+  
+      // Gestion de la recherche par date
+      document.getElementById('start_date').addEventListener('change', function () {
+          var selectedDate = new Date(this.value);
+  
+          // La date de début sera exactement celle que l'utilisateur a choisie
+          var formattedStartDate = selectedDate.toISOString().split('T')[0];
+  
+          var endDate = new Date(selectedDate);
+          endDate.setDate(selectedDate.getDate() + 6); // Ajouter 6 jours pour compléter la semaine
+          var formattedEndDate = endDate.toISOString().split('T')[0];
+  
+          document.getElementById('end_date').value = formattedEndDate;
+      });
+  
+      // Téléchargements : PDF, PNG, JPG, Excel
+      document.querySelector('.download-pdf').addEventListener('click', function(event) {
+          event.preventDefault();
+          downloadAsPDF();
+      });
+  
+      document.querySelector('.download-png').addEventListener('click', function(event) {
+          event.preventDefault();
+          downloadAsImage('png');
+      });
+  
+      document.querySelector('.download-jpg').addEventListener('click', function(event) {
+          event.preventDefault();
+          downloadAsImage('jpeg');
+      });
+  
+      document.querySelector('.download-excel').addEventListener('click', function(event) {
+          event.preventDefault();
+          downloadAsExcel();
+      });
+  
+      // Fonction pour télécharger en tant qu'image (PNG ou JPG)
+      function downloadAsImage(format) {
+          const element = document.querySelector('.container.bg-light.card.shadow-lg.my-3');
+          html2canvas(element, {
+              margin: [10, 10, 10, 10],
+              scale: 3, // Augmenter encore la résolution
+              useCORS: true, // Autoriser les ressources externes
+              backgroundColor: '#ffffff', // Fond blanc forcé
+          }).then(canvas => {
+              const link = document.createElement('a');
+              link.href = canvas.toDataURL(`image/${format}`, 1.0); // Qualité maximale
+              link.download = `feuille_de_temps.${format}`;
+              link.click();
+          });
+      }
+  
+      // Fonction pour télécharger en tant que PDF
+      function downloadAsPDF() {
+          const element = document.querySelector('.container.bg-light.card.shadow-lg.my-3');
+          const opt = {
+              margin: [10, 10, 10, 10], // Marges pour éviter le rognage
+              filename: 'feuille_de_temps.pdf',
+              image: { type: 'jpeg', quality: 1.0 }, // Qualité maximale
+              html2canvas: { scale: 4, useCORS: true }, // Meilleure qualité
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+          };
+          html2pdf().set(opt).from(element).save();
+      }
+  
+      // Fonction pour télécharger en tant qu'Excel
+      function downloadAsExcel() {
+          // Sélectionner la table
+          const table = document.querySelector('.timesheet-table');
+  
+          // Convertir la table en un tableau de données
+          const data = [];
+          const rows = table.querySelectorAll('tr');
+  
+          rows.forEach(row => {
+              const rowData = [];
+              const cells = row.querySelectorAll('th, td');
+              cells.forEach(cell => {
+                  rowData.push(cell.innerText);
+              });
+              data.push(rowData);
+          });
+  
+          // Créer un fichier Excel
+          const ws = XLSX.utils.aoa_to_sheet(data);
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Feuille de temps");
+  
+          // Générer le fichier Excel et le télécharger
+          XLSX.writeFile(wb, 'feuille_de_temps.xlsx');
+      }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load i18n %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>{% if societes %}{% trans "Modifier" %}{% else %}{% trans "Ajouter" %}{% endif %} {% trans "une Société" %}</h1>
+        <div>
+            <a href="{% url 'list_societes' %}" class="btn btn-danger">{% trans "Annuler" %}</a>
+            <button type="submit" form="societe-form" class="btn btn-success">{% trans "Enregistrer" %}</button>
+        </div>
+    </div>
+
+    <form id="societe-form" method="post">
+        {% csrf_token %}
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="form-group mb-3">
+                    <label for="NomSociete">{% trans "Nom de la Société" %}</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="NomSociete"
+                        name="NomSociete"
+                        value="{{ societes.NomSociete|default:'' }}"
+                        required
+                    />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

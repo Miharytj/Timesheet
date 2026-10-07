@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load i18n %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>{% trans "Ajouter une Permission" %}</h1>
+        <div>
+            <a href="{% url 'permission_list' %}" class="btn btn-danger">{% trans "Annuler" %}</a>
+            <button type="submit" form="permission-form" class="btn btn-success" id="submit-btn">{% trans "Ajouter" %}</button>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form id="permission-form" method="post" action="{% url 'add_permission' %}">
+        {% csrf_token %}
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="form-group mb-3">
+                    <label for="DatePer">{% trans "Date" %}</label>
+                    <input type="date" class="form-control" id="DatePer" name="DatePer" required>
+                    <div class="validation-icon" id="dateper-icon"></div>
+                    <div class="error-message" id="dateper-error"></div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="HeureDebPer">{% trans "Date et heure de début" %}</label>
+                    <input type="datetime-local" class="form-control" id="HeureDebPer" name="HeureDebPer" required>
+                    <div class="validation-icon" id="debut-icon"></div>
+                    <div class="error-message" id="debut-error"></div>
+                </div>
+
+                <div class="form-group mb-3" id="heurefin-group">
+                    <label for="HeureFinPer">{% trans "Date et heure de fin" %}</label>
+                    <input type="datetime-local" class="form-control" id="HeureFinPer" name="HeureFinPer" required>
+                    <div class="validation-icon" id="fin-icon"></div>
+                    <div class="error-message" id="fin-error"></div>
+                </div>
+
+                <div class="form-group mb-3" id="motif-group">
+                    <label for="MotifPer">{% trans "Motif" %}</label>
+                    <textarea class="form-control" id="MotifPer" name="MotifPer" rows="3" required></textarea>
+                    <div class="validation-icon" id="motif-icon"></div>
+                    <div class="error-message" id="motif-error"></div>
+                </div>
+
+                <div class="form-group mb-3" id="responsable-group">
+                    <label for="responsable">{% trans "Responsable" %}</label>
+                    <select id="responsable" name="responsable" class="form-control" required>
+                        <option value="">-- {% trans "Sélectionner un Responsable" %} --</option>
+                        {% for responsable in responsables %}
+                        <option value="{{ responsable.matricule }}">{{ responsable.nom }} {{ responsable.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="validation-icon" id="resp-icon"></div>
+                    <div class="error-message" id="resp-error"></div>
+                </div>
+
+                <div class="form-group mb-4" id="codetype-group">
+                    <label for="codetype">{% trans "Type de Permission" %}</label>
+                    <select id="codetype" name="codetype" class="form-control" required>
+                        <option value="">-- {% trans "Sélectionnez un Type de Permission" %} --</option>
+                        {% for type in types_permission %}
+                        <option value="{{ type.codetype }}">{{ type.Type }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="validation-icon" id="codetype-icon"></div>
+                    <div class="error-message" id="codetype-error"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <style>
+        .error-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .form-control.error {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        
+        .form-control:disabled {
+            background-color: #f8f9fa;
+            opacity: 0.6;
+        }
+        
+        .field-disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .validation-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .toast {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+    </style>
+
+    <script>
+        class PermissionFormValidator {
+            constructor() {
+                this.currentYear = new Date().getFullYear();
+                this.minYear = this.currentYear - 2;
+                this.maxYear = this.currentYear + 1;
+                this.validationState = {
+                    datePer: false,
+                    heureDebPer: false,
+                    heureFinPer: false,
+                    motif: false,
+                    responsable: false,
+                    codetype: false
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                // Définir la date d'aujourd'hui pour DatePer
+                var today = new Date().toISOString().split('T')[0];
+                if (!document.getElementById('DatePer').value) {
+                    document.getElementById('DatePer').value = today;
+                    this.validateDatePer(today); // Validate immediately
+                }
+                
+                // Ajouter les écouteurs d'événements
+                this.addEventListeners();
+                
+                // Désactiver les champs suivants au démarrage
+                this.disableField('HeureFinPer');
+                this.disableNextFields();
+            }
+            
+            addEventListeners() {
+                // Validation en temps réel pour la date
+                document.getElementById('DatePer').addEventListener('change', (e) => {
+                    this.validateDatePer(e.target.value);
+                });
+                
+                // Validation en temps réel pour la date/heure de début
+                document.getElementById('HeureDebPer').addEventListener('change', (e) => {
+                    this.validateHeureDebPer(e.target.value);
+                });
+                
+                // Validation en temps réel pour la date/heure de fin
+                document.getElementById('HeureFinPer').addEventListener('change', (e) => {
+                    this.validateHeureFinPer(e.target.value);
+                });
+                
+                // Validation en temps réel pour le motif
+                document.getElementById('MotifPer').addEventListener('input', (e) => {
+                    this.validateMotif(e.target.value);
+                });
+                
+                // Validation pour le responsable
+                document.getElementById('responsable').addEventListener('change', (e) => {
+                    this.validateResponsable(e.target.value);
+                });
+                
+                // Validation pour le type de permission
+                document.getElementById('codetype').addEventListener('change', (e) => {
+                    this.validateCodeType(e.target.value);
+                });
+                
+                // Prévenir la soumission si invalide
+                document.getElementById('permission-form').addEventListener('submit', (e) => {
+                    if (!this.isFormValid()) {
+                        e.preventDefault();
+                        this.showToast('{% trans "Veuillez corriger les erreurs avant de soumettre le formulaire" %}', 'error');
+                        return false;
+                    }
+                });
+            }
+            
+            validateDatePer(value) {
+                if (!value) {
+                    this.updateValidationState('datePer', false);
+                    this.clearFieldValidation('DatePer', 'dateper-error', 'dateper-icon');
+                    this.disableField('HeureDebPer');
+                    this.disableField('HeureFinPer');
+                    this.disableNextFields();
+                    this.updateFormState();
+                    return;
+                }
+                
+                const date = new Date(value);
+                const year = date.getFullYear();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                date.setHours(0, 0, 0, 0);
+                
+                let isValid = true;
+                let errorMessage = '';
+                
+                // Vérifier l'année
+                if (year < this.minYear || year > this.maxYear) {
+                    isValid = false;
+                    errorMessage = `{% trans "La date doit être entre" %} ${this.minYear} {% trans "et" %} ${this.maxYear}`;
+                }
+                // Vérifier que la date n'est pas dans le futur
+                else if (date > today) {
+                    isValid = false;
+                    errorMessage = '{% trans "La date ne peut pas être dans le futur" %}';
+                }
+                
+                this.updateValidationState('datePer', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('DatePer', 'dateper-error', 'dateper-icon', errorMessage);
+                    this.showToast(errorMessage, 'error');
+                    this.disableField('HeureDebPer');
+                    this.disableField('HeureFinPer');
+                    this.disableNextFields();
+                } else {
+                    this.showFieldSuccess('DatePer', 'dateper-error', 'dateper-icon');
+                    this.enableField('HeureDebPer');
+                    // Révalider la date de début si elle existe
+                    const heureDeb = document.getElementById('HeureDebPer').value;
+                    if (heureDeb) {
+                        this.validateHeureDebPer(heureDeb);
+                    }
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateHeureDebPer(value) {
+                if (!value) {
+                    this.updateValidationState('heureDebPer', false);
+                    this.clearFieldValidation('HeureDebPer', 'debut-error', 'debut-icon');
+                    this.disableField('HeureFinPer');
+                    this.disableNextFields();
+                    this.updateFormState();
+                    return;
+                }
+                
+                const dateDeb = new Date(value);
+                const datePer = new Date(document.getElementById('DatePer').value);
+                const year = dateDeb.getFullYear();
+                
+                let isValid = true;
+                let errorMessage = '';
+                
+                // Vérifier l'année
+                if (year < this.minYear || year > this.maxYear) {
+                    isValid = false;
+                    errorMessage = `{% trans "La date de début doit être entre" %} ${this.minYear} {% trans "et" %} ${this.maxYear}`;
+                }
+                // Vérifier que la date de début est après ou égale à la date
+                else if (dateDeb < datePer) {
+                    isValid = false;
+                    errorMessage = '{% trans "La date de début doit être postérieure ou égale à la date" %}';
+                }
+                
+                this.updateValidationState('heureDebPer', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('HeureDebPer', 'debut-error', 'debut-icon', errorMessage);
+                    this.showToast(errorMessage, 'error');
+                    this.disableField('HeureFinPer');
+                    this.disableNextFields();
+                } else {
+                    this.showFieldSuccess('HeureDebPer', 'debut-error', 'debut-icon');
+                    this.enableField('HeureFinPer');
+                    // Révalider la date de fin si elle existe
+                    const heureFin = document.getElementById('HeureFinPer').value;
+                    if (heureFin) {
+                        this.validateHeureFinPer(heureFin);
+                    }
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateHeureFinPer(value) {
+                if (!value) {
+                    this.updateValidationState('heureFinPer', false);
+                    this.clearFieldValidation('HeureFinPer', 'fin-error', 'fin-icon');
+                    this.disableNextFields();
+                    this.updateFormState();
+                    return;
+                }
+                
+                const dateFin = new Date(value);
+                const dateDeb = new Date(document.getElementById('HeureDebPer').value);
+                const year = dateFin.getFullYear();
+                
+                let isValid = true;
+                let errorMessage = '';
+                
+                // Vérifier l'année
+                if (year < this.minYear || year > this.maxYear) {
+                    isValid = false;
+                    errorMessage = `{% trans "La date de fin doit être entre" %} ${this.minYear} {% trans "et" %} ${this.maxYear}`;
+                }
+                // Vérifier que la date de fin est après la date de début
+                else if (dateFin <= dateDeb) {
+                    isValid = false;
+                    errorMessage = '{% trans "La date de fin doit être postérieure à la date de début" %}';
+                }
+                
+                this.updateValidationState('heureFinPer', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('HeureFinPer', 'fin-error', 'fin-icon', errorMessage);
+                    this.showToast(errorMessage, 'error');
+                    this.disableNextFields();
+                } else {
+                    this.showFieldSuccess('HeureFinPer', 'fin-error', 'fin-icon');
+                    this.enableNextFields();
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateMotif(value) {
+                const isValid = value.trim().length >= 4;
+                this.updateValidationState('motif', isValid);
+                
+                if (!isValid && value.length > 0) {
+                    this.showFieldError('MotifPer', 'motif-error', 'motif-icon', '{% trans "Le motif doit contenir au moins 04 caractères" %}');
+                } else if (isValid) {
+                    this.showFieldSuccess('MotifPer', 'motif-error', 'motif-icon');
+                } else {
+                    this.clearFieldValidation('MotifPer', 'motif-error', 'motif-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateResponsable(value) {
+                const isValid = value !== '';
+                this.updateValidationState('responsable', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('responsable', 'resp-error', 'resp-icon', '{% trans "Veuillez sélectionner un responsable" %}');
+                } else {
+                    this.showFieldSuccess('responsable', 'resp-error', 'resp-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            validateCodeType(value) {
+                const isValid = value !== '';
+                this.updateValidationState('codetype', isValid);
+                
+                if (!isValid) {
+                    this.showFieldError('codetype', 'codetype-error', 'codetype-icon', '{% trans "Veuillez sélectionner un type de permission" %}');
+                } else {
+                    this.showFieldSuccess('codetype', 'codetype-error', 'codetype-icon');
+                }
+                
+                this.updateFormState();
+            }
+            
+            showFieldError(fieldId, errorId, iconId, message) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(errorId);
+                const icon = document.getElementById(iconId);
+                
+                field.classList.add('error');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                // icon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                // icon.style.color = '#dc3545';
+            }
+            
+            showFieldSuccess(fieldId, errorId, iconId) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(errorId);
+                const icon = document.getElementById(iconId);
+                
+                field.classList.remove('error');
+                errorDiv.style.display = 'none';
+                // icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                // icon.style.color = '#28a745';
+            }
+            
+            clearFieldValidation(fieldId, errorId, iconId) {
+                const field = document.getElementById(fieldId);
+                const errorDiv = document.getElementById(errorId);
+                const icon = document.getElementById(iconId);
+                
+                field.classList.remove('error');
+                errorDiv.style.display = 'none';
+                icon.innerHTML = '';
+            }
+            
+            disableField(fieldId) {
+                const field = document.getElementById(fieldId);
+                field.disabled = true;
+                if (fieldId !== 'HeureFinPer') {
+                    field.value = '';
+                }
+            }
+            
+            enableField(fieldId) {
+                const field = document.getElementById(fieldId);
+                field.disabled = false;
+            }
+            
+            disableNextFields() {
+                document.getElementById('motif-group').classList.add('field-disabled');
+                document.getElementById('responsable-group').classList.add('field-disabled');
+                document.getElementById('codetype-group').classList.add('field-disabled');
+                document.getElementById('MotifPer').disabled = true;
+                document.getElementById('responsable').disabled = true;
+                document.getElementById('codetype').disabled = true;
+                document.getElementById('MotifPer').value = '';
+                document.getElementById('responsable').value = '';
+                document.getElementById('codetype').value = '';
+                this.updateValidationState('motif', false);
+                this.updateValidationState('responsable', false);
+                this.updateValidationState('codetype', false);
+            }
+            
+            enableNextFields() {
+                if (this.validationState.datePer && this.validationState.heureDebPer && this.validationState.heureFinPer) {
+                    document.getElementById('motif-group').classList.remove('field-disabled');
+                    document.getElementById('responsable-group').classList.remove('field-disabled');
+                    document.getElementById('codetype-group').classList.remove('field-disabled');
+                    document.getElementById('MotifPer').disabled = false;
+                    document.getElementById('responsable').disabled = false;
+                    document.getElementById('codetype').disabled = false;
+                    // Revalidate fields if they have values
+                    this.validateMotif(document.getElementById('MotifPer').value);
+                    this.validateResponsable(document.getElementById('responsable').value);
+                    this.validateCodeType(document.getElementById('codetype').value);
+                }
+            }
+            
+            updateValidationState(field, isValid) {
+                this.validationState[field] = isValid;
+            }
+            
+            isFormValid() {
+                return Object.values(this.validationState).every(state => state === true);
+            }
+            
+            updateFormState() {
+                const submitBtn = document.getElementById('submit-btn');
+                if (this.isFormValid()) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('btn-secondary');
+                    submitBtn.classList.add('btn-success');
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.remove('btn-success');
+                    submitBtn.classList.add('btn-secondary');
+                }
+            }
+            
+            showToast(message, type = 'error') {
+                const toastContainer = document.getElementById('toast-container');
+                const toastId = 'toast-' + Date.now();
+                
+                const toastHtml = `
+                    <div class="toast error-toast show" id="${toastId}" role="alert">
+                        <div class="toast-header bg-${type === 'error' ? 'danger' : 'success'} text-white">
+                            <strong class="me-auto">${type === 'error' ? '<i class="fas fa-exclamation-triangle"></i> {% trans "Erreur" %}' : '<i class="fas fa-check-circle"></i> {% trans "Succès" %}'}</strong>
+                            <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                    </div>
+                `;
+                
+                toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    const toast = document.getElementById(toastId);
+                    if (toast) {
+                        toast.remove();
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Initialiser le validateur quand la page est chargée
+        document.addEventListener('DOMContentLoaded', () => {
+            new PermissionFormValidator();
+        });
+    </script>
+</div>
+{% endblock %}

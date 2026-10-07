@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block branding %}
+<h1 id="site-name">{% trans "Administration du site" %}</h1>
+{% endblock %}
+
+{% block nav-global %}
+    <!-- Supprimer le lien "Administration Django" -->
+    <div id="header-nav">
+        <a href="{% url 'admin:index' %}">{% trans "Mon Administration" %}</a>
+    </div>
+{% endblock %}
+
+{% block footer %}
+<footer class="main-footer text-center d-flex justify-content-between">
+  <div>
+    <div id="user-tools">
+      <a href="{% url 'dashboard' %}" target="_blank">{% trans "Voir le site" %}</a>
+    </div>
+    <strong>© 2025 {% trans "Harel Mallac Technologies Madagascar" %}</strong>
+  </div>
+  <div>
+    <form action="{% url 'set_language' %}" method="post" class="dropdown-item p-0">
+      {% csrf_token %}
+      <select name="language" class="form-control border-0" onchange="this.form.submit();">
+          <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>{% trans "Français" %}</option>
+          <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "Anglais" %}</option>
+      </select>
+      <input type="hidden" name="next" value="{{ request.path }}">
+    </form>  
+  </div>
+</footer>
+{% endblock %}

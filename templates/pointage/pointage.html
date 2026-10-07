@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load i18n %}
+
+<style>
+  .popup {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    z-index: 1000;
+    display: none;
+    border-radius: 8px;
+    width: 350px;
+    font-size: 14px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .popup-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .popup-close {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .popup-section {
+    margin-bottom: 10px;
+  }
+  .popup-section-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .today-cell {
+    background-color: #79b4b7;
+    color: white;
+  }
+  .pointage-details {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  .pointage-details:hover {
+    background-color: #f5f5f5;
+  }
+  .early-arrival {
+    color: green;
+  }
+  .late-arrival {
+    color: red;
+  }
+  .warning-arrival {
+    color: orange;
+  }
+  .no-departure {
+    color: orange;
+  }
+  .remarque-text {
+    font-style: italic;
+    color: #666;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    border-left: 3px solid #aaa;
+  }
+</style>
+
+<div class="">
+  <div class="">
+    <!-- Contrôles du calendrier -->
+    <div class="navbar-expand calendar-controls d-flex align-items-center gap-2 border-bottom pb-4">
+      <div class="btn-group" role="group">
+        <button id="prev" class="btn btn-outline-primary" data-url="?service={{ selected_service }}&start_date={{ prev_week }}">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="next" class="btn btn-outline-primary" data-url="?service={{ selected_service }}&start_date={{ next_week }}">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <span class="current-date fw-bold" id="calendar-title">{% trans "Semaine du" %} {{ current_week }}</span>
+      <button id="today" class="btn btn-secondary" data-url="?service={{ selected_service }}&start_date={{ today_str }}">{% trans "Aujourd'hui" %}</button>
+    </div>
+
+    <!-- Filtre -->
+    <div class="container">
+      <div class="filter-container">
+        <form method="get" class="d-flex align-items-center gap-2">
+          <!-- Filtre par service -->
+          <select id="service-filter" name="service" class="form-select">
+            <option value="all" {% if selected_service == 'all' %}selected{% endif %}>{% trans "Tous les services" %}</option>
+            {% for service in services %}
+              <option value="{{ service.codeS }}" {% if service.codeS|stringformat:"s" == selected_service %}selected{% endif %}>
+                {{ service.poste }}
+              </option>
+            {% endfor %}
+          </select>      
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-filter"></i>
+          </button>
+        </form>      
+        <form method="get" class="d-flex align-items-center gap-2">      
+          <!-- Filtre par employé -->
+          <select id="employee-filter" name="employee" class="form-select">
+            <option value="all" {% if selected_employee == 'all' %}selected{% endif %}>{% trans "Tous les employés" %}</option>
+            {% for employee in employees %}
+              <option value="{{ employee.matricule }}" {% if employee.matricule|stringformat:"s" == selected_employee %}selected{% endif %}>
+                {{ employee.nom }} {{ employee.prenom }}
+              </option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-filter"></i>
+          </button>
+        </form> 
+
+        <form method="get" class="d-flex align-items-center gap-2">
+          <input type="date" id="start_date" name="start_date" class="form-control" value="{{ start_date }}" required />
+          <input type="hidden" id="end_date" name="end_date" value="{{ end_date }}" />
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="downloadDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-download"></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+              <li><a class="dropdown-item download-pdf" href="#"><i class="fa fa-file-pdf"></i> PDF</a></li>
+              <li><a class="dropdown-item download-png" href="#"><i class="fa fa-image"></i> PNG</a></li>
+              <li><a class="dropdown-item download-jpg" href="#"><i class="fa fa-image"></i> JPG</a></li>
+              <li><a class="dropdown-item download-excel" href="#"><i class="fa fa-file-excel"></i> Excel "BETA"</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container bg-light card shadow-lg my-3">
+  <div class="d-flex justify-content-between align-items-center mb-4 ml-2 mr-2 mt-2">
+    <h1>{% trans "Pointage" %}</h1>
+  </div>
+  <div class="timesheet-container">
+    <h5 class="text-center">
+      <span class="d-flex justify-content-center current-date fw-bold text-decoration-none" id="calendar-title">
+        {% trans "DATES: Du" %} {{ start_of_week|date:"d/m/Y" }} {% trans "au" %} {{ end_of_week|date:"d/m/Y" }}
+      </span>
+    </h5>
+    <div class="table-responsive">
+      <table class="table table-bordered timesheet-table">
+        <thead class="table-light">
+          <tr>
+            <th class="text-center">{% trans "Employé(e)" %}</th>
+            {% for day in days_of_week %}
+              <th class="text-center">{{ day|date:"D d/m" }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for employe_data in employe_data %}
+            <tr>
+              <td class="employee-name fw-bold">{{ employe_data.employe.nom }} {{ employe_data.employe.prenom }}</td>
+              {% for pointage in employe_data.pointages %}
+                <td class="text-center {% if pointage.jour == today %}table-primary bg-custom{% endif %}">
+                  <div class="pointage-details" 
+                       data-employe="{{ employe_data.employe.nom }} {{ employe_data.employe.prenom }}"
+                       data-jour="{{ pointage.jour|date:'d/m/Y' }}"
+                       data-arrivee="{{ pointage.arrivee }}"
+                       data-sortie="{{ pointage.sortie }}"
+                       data-arrivee-status="{% if pointage.arrivee_style == 'red' %}late{% elif pointage.arrivee_style == 'green' %}early{% else %}normal{% endif %}"
+                       data-remarque="{{ pointage.remarque|default:'' }}"
+                       data-pointage-id="{{ pointage.id|default:'' }}"
+                       data-matricule="{{ employe_data.employe.matricule|default:'' }}">
+                    {% if pointage.arrivee != '-' %}
+                      <span class="arrival-time">
+                        {{ pointage.arrivee }}
+                      </span>
+                    {% else %}
+                      -
+                    {% endif %}
+                    <div>{{ pointage.sortie }}</div>
+                  </div>
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Popup pour les détails de pointage -->
+<div id="pointage-popup" class="popup">
+  <div class="popup-header">
+    <span id="popup-title">{% trans "Détails du pointage" %}</span>
+    <span class="popup-close">&times;</span>
+  </div>
+  <div id="popup-content">
+    <div class="popup-section">
+      <div class="popup-section-title">{% trans "Heure d'arrivée" %}</div>
+      <div id="popup-arrivee"></div>
+    </div>
+    
+    <div class="popup-section">
+      <div class="popup-section-title">{% trans "Heure de sortie" %}</div>
+      <div id="popup-sortie"></div>
+    </div>
+    
+    <div class="popup-section" id="popup-remarque-section">
+      <div class="popup-section-title">{% trans "Remarque" %}</div>
+      <div id="popup-remarque" class="remarque-text"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // Fonction pour déterminer le statut de l'arrivée basé sur l'heure et la remarque
+    function determineArrivalStatus(arrivee, remarque) {
+      if (arrivee === '-') {
+        return 'absent';
+      }
+      
+      // Convertir l'heure d'arrivée en minutes depuis minuit
+      const arriveeParts = arrivee.split(':');
+      const arriveeMinutes = parseInt(arriveeParts[0]) * 60 + parseInt(arriveeParts[1]);
+      
+      // 09:30 en minutes = 9 * 60 + 30 = 570 minutes
+      const limitTime = 9 * 60 + 30;
+      
+      // Si l'heure d'arrivée est après 09:30
+      if (arriveeMinutes > limitTime) {
+        // Si il y a une remarque non vide, c'est un warning (jaune)
+        if (remarque && remarque.trim() !== '') {
+          return 'warning';
+        } else {
+          // Pas de remarque et en retard = rouge
+          return 'late';
+        }
+      } else {
+        // Arrivée avant ou à 09:30 = vert (en avance/à l'heure)
+        return 'early';
+      }
+    }
+    
+    // Appliquer les couleurs aux heures d'arrivée
+    document.querySelectorAll('.pointage-details').forEach(function(element) {
+      const arrivee = element.getAttribute('data-arrivee');
+      const remarque = element.getAttribute('data-remarque');
+      const arrivalSpan = element.querySelector('.arrival-time');
+      
+      if (arrivalSpan) {
+        const status = determineArrivalStatus(arrivee, remarque);
+        
+        // Supprimer les classes existantes
+        arrivalSpan.classList.remove('early-arrival', 'late-arrival', 'warning-arrival');
+        
+        // Appliquer la nouvelle classe
+        switch (status) {
+          case 'early':
+            arrivalSpan.classList.add('early-arrival');
+            break;
+          case 'late':
+            arrivalSpan.classList.add('late-arrival');
+            break;
+          case 'warning':
+            arrivalSpan.classList.add('warning-arrival');
+            break;
+        }
+        
+        // Mettre à jour l'attribut data-arrivee-status pour le popup
+        element.setAttribute('data-arrivee-status', status);
+      }
+    });
+
+    // Gestion des clics sur les détails de pointage pour afficher le popup
+    document.querySelectorAll('.pointage-details').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.stopPropagation();
+            
+            var popup = document.getElementById('pointage-popup');
+            var pointageId = this.getAttribute('data-pointage-id');
+            var employe = this.getAttribute('data-employe');
+            var jour = this.getAttribute('data-jour');
+            var arrivee = this.getAttribute('data-arrivee');
+            var sortie = this.getAttribute('data-sortie');
+            var arriveeStatus = this.getAttribute('data-arrivee-status');
+            var remarque = this.getAttribute('data-remarque');
+            var matricule = this.getAttribute('data-matricule');
+            
+            // Style pour l'heure d'arrivée dans le popup
+            if (arrivee === '-') {
+                document.getElementById('popup-arrivee').innerHTML = '<span class="no-departure">Non enregistrée</span>';
+            } else if (arriveeStatus === 'late') {
+                document.getElementById('popup-arrivee').innerHTML = '<span class="late-arrival">' + arrivee + ' <i class="fas fa-exclamation-triangle"></i> (En retard)</span>';
+            } else if (arriveeStatus === 'warning') {
+                document.getElementById('popup-arrivee').innerHTML = '<span class="warning-arrival">' + arrivee + ' <i class="fas fa-exclamation-triangle"></i> (En retard avec justification)</span>';
+            } else if (arriveeStatus === 'early') {
+                document.getElementById('popup-arrivee').innerHTML = '<span class="early-arrival">' + arrivee + ' <i class="fas fa-check-circle"></i> (À l\'heure)</span>';
+            } else {
+                document.getElementById('popup-arrivee').textContent = arrivee;
+            }
+            
+            // Heure de sortie
+            if (sortie === '-') {
+                document.getElementById('popup-sortie').innerHTML = '<span class="no-departure">Non enregistrée</span>';
+            } else {
+                document.getElementById('popup-sortie').textContent = sortie;
+            }
+            
+            // Remarque
+            var remarqueSection = document.getElementById('popup-remarque-section');
+            if (remarque && remarque !== '') {
+                remarqueSection.style.display = 'block';
+                document.getElementById('popup-remarque').textContent = remarque;
+            } else {
+                remarqueSection.style.display = 'none';
+            }
+            
+            // Positionner et afficher le popup
+            popup.style.display = 'block';
+            
+            // Calcul de la position pour éviter que le popup sorte de l'écran
+            var rect = element.getBoundingClientRect();
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            var popupWidth = popup.offsetWidth;
+            var popupHeight = popup.offsetHeight;
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+            
+            var left = rect.left + scrollLeft;
+            var top = rect.top + scrollTop;
+            
+            // Ajuster la position si le popup dépasse la fenêtre
+            if (left + popupWidth > windowWidth + scrollLeft) {
+                left = windowWidth + scrollLeft - popupWidth - 10;
+            }
+            
+            if (top + popupHeight > windowHeight + scrollTop) {
+                top = windowHeight + scrollTop - popupHeight - 10;
+            }
+            
+            popup.style.left = left + 'px';
+            popup.style.top = top + 'px';
+        });
+    });
+    
+    // Fermer le popup quand on clique sur le X
+    document.querySelector('.popup-close').addEventListener('click', function() {
+        document.getElementById('pointage-popup').style.display = 'none';
+    });
+
+    // Masquer le popup lorsqu'on clique en dehors
+    document.addEventListener('click', function(event) {
+        var popup = document.getElementById('pointage-popup');
+        if (!event.target.closest('.pointage-details') && !event.target.closest('#pointage-popup')) {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Navigation dans le calendrier
+    document.querySelectorAll('#prev, #next').forEach(button => {
+        button.addEventListener('click', function () {
+            const startDate = getStartDate();
+            const newStartDate = this.id === 'prev' ? new Date(startDate.setDate(startDate.getDate() - 7)) :
+                               new Date(startDate.setDate(startDate.getDate() + 7));
+            window.location.href = `?service={{ selected_service }}&start_date=${formatDate(newStartDate)}`;
+        });
+    });
+
+    document.getElementById('today').addEventListener('click', function () {
+        const today = new Date();
+        const mondayOfThisWeek = today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1); // Lundi de cette semaine
+        const startDate = new Date(today.setDate(mondayOfThisWeek));
+        window.location.href = `?service={{ selected_service }}&start_date=${formatDate(startDate)}`;
+    });
+
+    // Calcul automatique de la date de fin (7 jours après la date de début)
+    document.getElementById('start_date').addEventListener('change', function() {
+        const startDate = new Date(this.value);
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + 6);
+        document.getElementById('end_date').value = endDate.toISOString().split('T')[0];
+    });
+
+    // Téléchargements
+    document.querySelector('.download-pdf').addEventListener('click', function(event) {
+        event.preventDefault();
+        downloadAsPDF();
+    });
+
+    document.querySelector('.download-png').addEventListener('click', function(event) {
+        event.preventDefault();
+        downloadAsImage('png');
+    });
+
+    document.querySelector('.download-jpg').addEventListener('click', function(event) {
+        event.preventDefault();
+        downloadAsImage('jpeg');
+    });
+
+    document.querySelector('.download-excel').addEventListener('click', function(event) {
+        event.preventDefault();
+        downloadAsExcel();
+    });
+
+    // Fonction pour télécharger en tant qu'image (PNG ou JPG)
+    function downloadAsImage(format) {
+        const element = document.querySelector('.container.bg-light.card.shadow-lg.my-3');
+        html2canvas(element, {
+            margin: [10, 10, 10, 10],
+            scale: 3, // Augmenter encore la résolution
+            useCORS: true, // Autoriser les ressources externes
+            backgroundColor: '#ffffff', // Fond blanc forcé
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL(`image/${format}`, 1.0); // Qualité maximale
+            link.download = `pointage.${format}`;
+            link.click();
+        });
+    }
+
+    // Fonction pour télécharger en tant que PDF
+    function downloadAsPDF() {
+        const element = document.querySelector('.container.bg-light.card.shadow-lg.my-3');
+        const opt = {
+            margin: [10, 10, 10, 10], // Marges pour éviter le rognage
+            filename: 'pointage.pdf',
+            image: { type: 'jpeg', quality: 1.0 }, // Qualité maximale
+            html2canvas: { scale: 4, useCORS: true }, // Meilleure qualité
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function downloadAsExcel() {
+      // Sélectionner la table
+      const table = document.querySelector('.timesheet-table');
+
+      // Convertir la table en un tableau de données
+      const data = [];
+      const rows = table.querySelectorAll('tr');
+
+      rows.forEach(row => {
+          const rowData = [];
+          const cells = row.querySelectorAll('th, td');
+
+          cells.forEach(cell => {
+              // Récupérer le texte brut de la cellule
+              const cellText = cell.innerText || cell.textContent;
+              rowData.push(cellText);
+          });
+
+          data.push(rowData);
+      });
+
+      // Créer un fichier Excel
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Pointage");
+
+      // Générer le fichier Excel et le télécharger
+      XLSX.writeFile(wb, 'pointage.xlsx');
+  }
+
+    // Helper function to format date to YYYY-MM-DD
+    function formatDate(date) {
+        const d = new Date(date);
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${year}-${month}-${day}`;
+    }
+
+    // Helper function to get the start date of the current displayed week
+    function getStartDate() {
+        const startDateStr = document.getElementById('start_date').value;
+        return new Date(startDateStr);
+    }
+  });
+</script>
+{% endblock %}
