@@ -19,3 +19,4 @@ media/
 
 # Fichiers statiques collectés
 staticfiles/*.log
+*.log
